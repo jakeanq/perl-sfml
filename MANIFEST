@@ -1,0 +1,8 @@
+Changes
+Makefile.PL
+MANIFEST
+ppport.h
+README
+SFML.xs
+t/SFML.t
+lib/SFML.pm

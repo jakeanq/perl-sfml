@@ -1,0 +1,12 @@
+*.old
+obj/
+blib/
+Local/FTGL/Makefile
+MYMETA.*
+*.o
+*.c
+pm_to_blib
+*.bs
+*.geanyprj
+*.geany
+*.trace
