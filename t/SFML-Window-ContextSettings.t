@@ -23,11 +23,8 @@ isa_ok($context, "SFML::Window::ContextSettings");
 can_ok($context, qw(setDepthBits setStencilBits setAntialiasingLevel setMajorVersion setMinorVersion));
 can_ok($context, qw(getDepthBits getStencilBits getAntialiasingLevel getMajorVersion getMinorVersion));
 
-is($context->getDepthBits,         20,  "getDepthBits");
-is($context->getStencilBits,       10,  "getStencilBits");
-is($context->getAntialiasingLevel, 5,   "getAntialiasingLevel");
-is($context->getMajorVersion,      50,  "getMajorVersion");
-is($context->getMinorVersion,      100, "getMinorVersion");        # Not working properly atm
+our %t=qw(DepthBits 20 StencilBits 10 AntialiasingLevel 5 MajorVersion 50 MinorVersion 100);
+is(eval '$context->get'.$_, $t{$_}, $_) for keys %t;
 
 =head1 COPYRIGHT
 
