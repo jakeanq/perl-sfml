@@ -16,6 +16,10 @@ extern "C" {
 #undef do_close
 
 #include <SFML/System.hpp>
+#include <SFML/Window.hpp>
+
+using namespace sf;
 
 MODULE = SFML		PACKAGE = SFML		
 
+INCLUDE: xsrc/Window.xs
