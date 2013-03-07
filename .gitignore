@@ -1,7 +1,7 @@
 *.old
 obj/
 blib/
-Local/FTGL/Makefile
+Makefile
 MYMETA.*
 *.o
 *.c

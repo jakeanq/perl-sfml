@@ -26,7 +26,7 @@ our @EXPORT = qw(
 
 );
 
-our $VERSION = '0.01';
+our $VERSION = '0.01'; # Alpha!
 
 require XSLoader;
 XSLoader::load('SFML', $VERSION);
@@ -39,50 +39,37 @@ __END__
 
 =head1 NAME
 
-SFML - Perl extension for blah blah blah
+SFML - Perl extension that enables the use of the SFML multimedia library.
 
 =head1 SYNOPSIS
 
   use SFML;
-  blah blah blah
 
 =head1 DESCRIPTION
 
-Stub documentation for SFML, created by h2xs. It looks like the
-author of the extension was negligent enough to leave the stub
-unedited.
-
-Blah blah blah.
+SFML is a free multimedia C++ API that provides you low and high level access to graphics, input, audio, etc.
+The SFML is that, but with Perl!
 
 =head2 EXPORT
 
 None by default.
 
-
-
 =head1 SEE ALSO
 
-Mention other useful documentation such as the documentation of
-related modules or operating system documentation (such as man pages
-in UNIX), or any relevant external documentation such as RFCs or
-standards.
+www.sfml-dev.org
 
-If you have a mailing list set up for your module, mention it here.
-
-If you have a web site set up for your module, mention it here.
+github.com/jakeanq/perl-sfml/
 
 =head1 AUTHOR
 
-Jake Bott, E<lt>jake@(none)E<gt>
+Jake Bott, E<lt>jakeanq@gmail.comE<gt>
+Gosha Tugai E<lt>whatever.the.correct@email.address.isE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2013 by Jake Bott
+Copyright (C) 2013 by Jake Bott, Gosha Tugai
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.16.2 or,
-at your option, any later version of Perl 5 you may have available.
-
+See the LICENCE file that should have been included with this 
 
 =cut
 
