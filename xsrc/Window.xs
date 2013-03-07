@@ -13,12 +13,28 @@ Context::setActive(active)
 MODULE = SFML		PACKAGE = SFML::Window::ContextSettings
 
 ContextSettings*
-ContextSettings::new(depthBits, stencilBits, antialiasingLevel, majorVersion, minorVersion)
-	int depthBits
-	int stencilBits
-	int antialiasingLevel
-	int majorVersion
-	int minorVersion
+ContextSettings::new(...)
+	CODE:
+		RETVAL = new ContextSettings();
+		ARG_P_BEGIN
+			ARG_P_OPTION("depthBits")
+				RETVAL->depthBits = SvIV(ARG_P);
+			ARG_P_OPTION_END
+			ARG_P_OPTION("stencilBits")
+				RETVAL->stencilBits = SvIV(ARG_P);
+			ARG_P_OPTION_END
+			ARG_P_OPTION("antialiasingLevel")
+				RETVAL->antialiasingLevel = SvIV(ARG_P);
+			ARG_P_OPTION_END
+			ARG_P_OPTION("majorVersion")
+				RETVAL->majorVersion = SvIV(ARG_P);
+			ARG_P_OPTION_END
+			ARG_P_OPTION("minorVersion")
+				RETVAL->minorVersion = SvIV(ARG_P);
+			ARG_P_OPTION_END
+		ARG_P_END
+	OUTPUT:
+		RETVAL
 
 void
 ContextSettings::DESTROY()
