@@ -1,2 +1,3 @@
 TYPEMAP
 Context* O_OBJECT
+ContextSettings* O_OBJECT
