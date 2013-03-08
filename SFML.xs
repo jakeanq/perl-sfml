@@ -18,6 +18,7 @@ extern "C" {
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <vector>
+#include <string>
 
 #define ARG_P_BEGIN for(int arg_p_n = 1; arg_p_n <= items; arg_p_n++){
 

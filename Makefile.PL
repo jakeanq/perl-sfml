@@ -15,8 +15,8 @@ WriteMakefile(
 		  )
 		: ()
 	),
-	#CC     => 'clang -x c++ -Wall -ggdb',
-	CC       => 'g++ -Wall -ggdb',
+	CC => 'clang -x c++ -Wall -ggdb -Wno-duplicate-decl-specifier',
+	#CC       => 'g++ -Wall -ggdb',
 	LD       => 'g++ -Wall -ggdb',
 	XSOPT    => '-C++',
 	TYPEMAPS => ['perlobject.map'],

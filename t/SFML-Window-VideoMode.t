@@ -16,7 +16,7 @@ BEGIN { use_ok('SFML::Window') }
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
-my $context = new SFML::Window::VideoMode(800,600);
+my $context = new SFML::Window::VideoMode(800, 600);
 
 isa_ok($context, "SFML::Window::VideoMode");
 

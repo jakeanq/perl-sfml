@@ -2,3 +2,4 @@ TYPEMAP
 Context* O_OBJECT
 ContextSettings* O_OBJECT
 VideoMode* O_OBJECT
+Window* O_OBJECT

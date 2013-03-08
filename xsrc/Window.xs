@@ -181,7 +181,7 @@ getPosition(...)
 	Vector2i v;
 	PPCODE:
 		if(items > 0){
-			//Insert extended call here once object completed
+			v = Mouse::getPosition(*((Window*)SvIV(ST(0))));
 		} else {
 			v = Mouse::getPosition();
 		}
@@ -195,7 +195,7 @@ setPosition(x,y,...)
 	int y
 	CODE:
 		if(items > 3) {
-			//Insert extended call here once object completed
+			Mouse::setPosition(Vector2i(x,y),*((Window*)SvIV(ST(0))));
 		} else {
 			Mouse::setPosition(Vector2i(x,y));
 		}
@@ -213,6 +213,9 @@ VideoMode::new(width, height, ...)
 			RETVAL = new VideoMode(width, height);
 	OUTPUT:
 		RETVAL
+
+void
+VideoMode::DESTROY()
 
 bool
 VideoMode::isValid()
@@ -273,8 +276,135 @@ getFullscreenModes()
 	PPCODE:
 		vmv = VideoMode::getFullscreenModes();
 		EXTEND(SP,vmv.size());
-		for(int i = 0; i < vmv.size(); i++){
+		for(unsigned int i = 0; i < vmv.size(); i++){
 			SV* sv = newSV(0);
 			sv_setref_pv(sv, "SFML::Window::VideoMode", (void*) new VideoMode(vmv[i]));
 			PUSHs(sv_2mortal(sv));
 		}
+
+MODULE = SFML		PACKAGE = SFML::Window::Window
+
+Window*
+Window::new(mode, title, ...)
+	VideoMode* mode
+	char * title
+	CODE:
+		if(items >= 4){
+			RETVAL = new Window(*mode, std::string(title), SvIV(ST(3)), *((ContextSettings*) SvIV(ST(4))));
+		} else if (items >= 3){
+			RETVAL = new Window(*mode, std::string(title), SvIV(ST(3)));
+		} else {
+			RETVAL = new Window(*mode, std::string(title));
+		}
+	OUTPUT:
+		RETVAL
+
+void
+Window::DESTROY()
+
+void
+Window::create(mode, title, ...)
+	VideoMode* mode
+	char * title
+	CODE:
+		if(items >= 4){
+			THIS->create(*mode, std::string(title), SvIV(ST(3)), *((ContextSettings*) SvIV(ST(4))));
+		} else if (items >= 3){
+			THIS->create(*mode, std::string(title), SvIV(ST(3)));
+		} else {
+			new Window(*mode, std::string(title));
+		}
+
+void
+Window::close()
+
+bool
+Window::isOpen()
+
+ContextSettings*
+Window::getSettings()
+	PREINIT:
+		const char * CLASS = "SFML::Window::ContextSettings";
+	CODE:
+		RETVAL = new ContextSettings(THIS->getSettings());
+	OUTPUT:
+		RETVAL
+
+void
+Window::getPosition()
+	PREINIT:
+	Vector2i v;
+	PPCODE:
+		v = THIS->getPosition();
+		EXTEND(SP, 2);
+		PUSHs(sv_2mortal(newSViv(v.x)));
+		PUSHs(sv_2mortal(newSViv(v.y)));
+
+void
+Window::setPosition(x,y)
+	int x
+	int y
+	CODE:
+		THIS->setPosition(Vector2i(x,y));
+
+void
+Window::getSize()
+	PREINIT:
+	Vector2u v;
+	PPCODE:
+		v = THIS->getSize();
+		EXTEND(SP, 2);
+		PUSHs(sv_2mortal(newSViv((int)v.x)));
+		PUSHs(sv_2mortal(newSViv((int)v.y)));
+
+void
+Window::setSize(x,y)
+	int x
+	int y
+	CODE:
+		THIS->setPosition(Vector2i((unsigned int)x,(unsigned int)y));
+
+void
+Window::setTitle(title)
+	char * title
+	CODE:
+		THIS->setTitle(std::string(title));
+
+void
+Window::setVisible(visible)
+	bool visible
+
+void
+Window::setVerticalSyncEnabled(enabled)
+	bool enabled
+
+void
+Window::setMouseCursorVisible(visible)
+	bool visible
+
+void
+Window::setKeyRepeatEnabled(enabled)
+	bool enabled
+
+void
+Window::setFramerateLimit(limit)
+	int limit
+
+void
+Window::setJoystickThreshold(threshold)
+	float threshold
+
+bool
+Window::setActive(active)
+	bool active
+
+void
+Window::display()
+
+void
+Window::setIcon(x,y,pixels)
+	int x
+	int y
+	void * pixels
+	CODE:
+		THIS->setIcon(x,y,(Uint8*)pixels);
