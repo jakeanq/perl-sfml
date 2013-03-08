@@ -199,3 +199,82 @@ setPosition(x,y,...)
 		} else {
 			Mouse::setPosition(Vector2i(x,y));
 		}
+
+MODULE = SFML		PACKAGE = SFML::Window::VideoMode
+
+VideoMode*
+VideoMode::new(width, height, ...)
+	int width
+	int height
+	CODE:
+		if (items > 3)
+			RETVAL = new VideoMode(width, height, SvIV(ST(3)));
+		else
+			RETVAL = new VideoMode(width, height);
+	OUTPUT:
+		RETVAL
+
+bool
+VideoMode::isValid()
+
+int
+VideoMode::getWidth()
+	CODE:
+		RETVAL = THIS->width;
+	OUTPUT:
+		RETVAL
+
+int
+VideoMode::getHeight()
+	CODE:
+		RETVAL = THIS->height;
+	OUTPUT:
+		RETVAL
+
+int
+VideoMode::getBitsPerPixel()
+	CODE:
+		RETVAL = THIS->bitsPerPixel;
+	OUTPUT:
+		RETVAL
+
+
+void
+VideoMode::setWidth(width)
+	int width
+	CODE:
+		THIS->width = width;
+
+void
+VideoMode::setHeight(height)
+	int height
+	CODE:
+		THIS->height = height;
+
+void
+VideoMode::setBitsPerPixel(bitsPerPixel)
+	int bitsPerPixel
+	CODE:
+		THIS->bitsPerPixel = bitsPerPixel;
+
+VideoMode*
+getDesktopMode()
+	PREINIT:
+		const char * CLASS = "SFML::Window::VideoMode";
+	CODE:
+		RETVAL = new VideoMode(VideoMode::getDesktopMode());
+	OUTPUT:
+		RETVAL
+
+void
+getFullscreenModes()
+	PREINIT:
+	std::vector<VideoMode> vmv;
+	PPCODE:
+		vmv = VideoMode::getFullscreenModes();
+		EXTEND(SP,vmv.size());
+		for(int i = 0; i < vmv.size(); i++){
+			SV* sv = newSV(0);
+			sv_setref_pv(sv, "SFML::Window::VideoMode", (void*) new VideoMode(vmv[i]));
+			PUSHs(sv_2mortal(sv));
+		}
