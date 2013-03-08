@@ -105,4 +105,97 @@ ContextSettings::setMinorVersion(minorVersion)
 	CODE:
 		THIS->minorVersion = minorVersion;
 
+MODULE = SFML		PACKAGE = SFML::Window::Joystick
 
+bool
+isConnected(joystick_id)
+	int joystick_id
+	CODE:
+		RETVAL = Joystick::isConnected(joystick_id);
+	OUTPUT:
+		RETVAL
+
+int
+getButtonCount(joystick_id)
+	int joystick_id
+	CODE:
+		RETVAL = Joystick::getButtonCount(joystick_id);
+	OUTPUT:
+		RETVAL
+
+bool
+hasAxis(joystick_id, axis)
+	int joystick_id	
+	int axis
+	CODE:
+		RETVAL = Joystick::hasAxis(joystick_id, (sf::Joystick::Axis) axis);
+	OUTPUT:
+		RETVAL
+
+bool
+isButtonPressed(joystick_id, button)
+	int joystick_id
+	int button
+	CODE:
+		RETVAL = Joystick::isButtonPressed(joystick_id,button);
+	OUTPUT:
+		RETVAL
+
+float
+getAxisPosition(joystick_id, axis)
+	int joystick_id
+	int axis
+	CODE:
+		RETVAL = Joystick::getAxisPosition(joystick_id, (sf::Joystick::Axis) axis);
+	OUTPUT:
+		RETVAL
+
+void
+update()
+	CODE:
+		Joystick::update();
+
+MODULE = SFML		PACKAGE = SFML::Window::Keyboard
+
+bool
+isKeyPressed(key_id)
+	int key_id
+	CODE:
+		RETVAL = Keyboard::isKeyPressed((sf::Keyboard::Key) key_id);
+	OUTPUT:
+		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Window::Mouse
+
+bool
+isButtonPressed(button_id)
+	int button_id
+	CODE:
+		RETVAL = Mouse::isButtonPressed((sf::Mouse::Button)button_id);
+	OUTPUT:
+		RETVAL
+
+void
+getPosition(...)
+	PREINIT:
+	Vector2i v;
+	PPCODE:
+		if(items > 0){
+			//Insert extended call here once object completed
+		} else {
+			v = Mouse::getPosition();
+		}
+		EXTEND(SP, 2);
+		PUSHs(sv_2mortal(newSViv(v.x)));
+		PUSHs(sv_2mortal(newSViv(v.y)));
+
+void
+setPosition(x,y,...)
+	int x
+	int y
+	CODE:
+		if(items > 3) {
+			//Insert extended call here once object completed
+		} else {
+			Mouse::setPosition(Vector2i(x,y));
+		}
