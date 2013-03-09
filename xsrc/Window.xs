@@ -371,32 +371,60 @@ Window::setTitle(title)
 		THIS->setTitle(std::string(title));
 
 void
-Window::setVisible(visible)
-	bool visible
+Window::setVisible(...)
+	CODE:
+		if(items >= 1)
+			THIS->setVisible(SvTRUE(ST(1)));
+		else
+			THIS->setVisible(true);
 
 void
-Window::setVerticalSyncEnabled(enabled)
-	bool enabled
+Window::setVerticalSyncEnabled(...)
+	CODE:
+		if(items >= 1)
+			THIS->setVerticalSyncEnabled(SvTRUE(ST(1)));
+		else
+			THIS->setVerticalSyncEnabled(true);
 
 void
-Window::setMouseCursorVisible(visible)
-	bool visible
+Window::setMouseCursorVisible(...)
+	CODE:
+		if(items >= 1)
+			THIS->setMouseCursorVisible(SvTRUE(ST(1)));
+		else
+			THIS->setMouseCursorVisible(true);
 
 void
-Window::setKeyRepeatEnabled(enabled)
-	bool enabled
+Window::setKeyRepeatEnabled(...)
+	CODE:
+		if(items >= 1)
+			THIS->setKeyRepeatEnabled(SvTRUE(ST(1)));
+		else
+			THIS->setKeyRepeatEnabled(true);
 
 void
-Window::setFramerateLimit(limit)
-	int limit
+Window::setFramerateLimit(...)
+	CODE:
+		if(items >= 1)
+			THIS->setFramerateLimit(SvTRUE(ST(1)));
+		else
+			THIS->setFramerateLimit(true);
 
 void
-Window::setJoystickThreshold(threshold)
-	float threshold
+Window::setJoystickThreshold(...)
+	CODE:
+		if(items >= 1)
+			THIS->setJoystickThreshold(SvTRUE(ST(1)));
+		else
+			THIS->setJoystickThreshold(true);
 
 bool
-Window::setActive(active)
-	bool active
+Window::setActive(...)
+	CODE:
+		if(items >= 1)
+			RETVAL = THIS->setActive(SvTRUE(ST(1)));
+		else
+			RETVAL = THIS->setActive(true);
 
 void
 Window::display()
