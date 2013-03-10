@@ -41,4 +41,6 @@ using namespace sf;
 
 MODULE = SFML		PACKAGE = SFML		
 
+PROTOTYPES: ENABLE
+
 INCLUDE: xsrc/Window.xs

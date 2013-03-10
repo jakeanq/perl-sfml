@@ -16,8 +16,8 @@ BEGIN { use_ok('SFML::Window') }
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
-my $vm=SFML::Window::VideoMode->new(800, 600);
-isa_ok($vm,'SFML::Window::VideoMode');
+my $vm = SFML::Window::VideoMode->new(800, 600);
+isa_ok($vm, 'SFML::Window::VideoMode');
 my $window = new SFML::Window::Window($vm, "perl-sfml test window");
 
 isa_ok($window, "SFML::Window::Window");
@@ -27,8 +27,8 @@ can_ok($window, qw(setVisible setIcon setVerticalSyncEnabled setMouseCursorVisib
 can_ok($window, qw(setFramerateLimit setJoystickThreshold setActive display));
 #can_ok($window, qw(pollEvent waitEvent));
 
-my $cs=SFML::Window::ContextSettings->new(depthBits => 24, stencilBits => 8, minorVersion => 1);
-isa_ok($cs,'SFML::Window::ContextSettings');
+my $cs = SFML::Window::ContextSettings->new(depthBits => 24, stencilBits => 8, minorVersion => 1);
+isa_ok($cs, 'SFML::Window::ContextSettings');
 #TODO: Exchange 7 for SFML::Window::Style::Default when constants are finished.
 $window->create($vm, "perl-sfml test window", 7, $cs);
 isa_ok($window, 'SFML::Window::Window');
@@ -36,12 +36,12 @@ my $c = $window->getSettings;
 isa_ok($c, "SFML::Window::ContextSettings");
 
 my $d = new SFML::Window::ContextSettings(depthBits => 24, stencilBits => 8, minorVersion => 1);
-is( $c->getDepthBits, $d->getDepthBits, "getSettings DepthBits value check");
-is( $c->getStencilBits, $d->getStencilBits, "getSettings StencilBits value check");
+is($c->getDepthBits,   $d->getDepthBits,   "getSettings DepthBits value check");
+is($c->getStencilBits, $d->getStencilBits, "getSettings StencilBits value check");
 TODO: {
-	local $TODO='Some hardware forces particular versions of GL context.';
-	is( $c->getMajorVersion, $d->getMajorVersion, "getSettings MajorVersion value check");
-	is( $c->getMinorVersion, $d->getMinorVersion, "getSettings MinorVersion value check");
+	local $TODO = 'Some hardware forces particular versions of GL context.';
+	is($c->getMajorVersion, $d->getMajorVersion, "getSettings MajorVersion value check");
+	is($c->getMinorVersion, $d->getMinorVersion, "getSettings MinorVersion value check");
 }
 
 $window->isOpen;
