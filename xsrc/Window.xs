@@ -290,9 +290,9 @@ Window::new(mode, title, ...)
 	VideoMode* mode
 	char * title
 	CODE:
-		if(items >= 4){
+		if(items >= 5){
 			RETVAL = new Window(*mode, std::string(title), SvIV(ST(3)), *((ContextSettings*) SvIV(SvRV(ST(4)))));
-		} else if (items >= 3){
+		} else if (items >= 4){
 			RETVAL = new Window(*mode, std::string(title), SvIV(ST(3)));
 		} else {
 			RETVAL = new Window(*mode, std::string(title));
