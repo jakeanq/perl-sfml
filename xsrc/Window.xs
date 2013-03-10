@@ -182,7 +182,9 @@ getPosition(...)
 	Vector2i v;
 	PPCODE:
 		if(items > 0){
-			v = Mouse::getPosition(*((Window*)SvIV(ST(0))));
+			if(!sv_isa(ST(4), "SFML::Window::Window"))
+				croak("Usage: SFML::Window::Mouse::getPosition\n       SFML::Window::Mouse::getPosition(window)");
+			v = Mouse::getPosition(*((Window*)SvIV(SvRV(ST(0)))));
 		} else {
 			v = Mouse::getPosition();
 		}
@@ -196,7 +198,9 @@ setPosition(x,y,...)
 	int y
 	CODE:
 		if(items > 3) {
-			Mouse::setPosition(Vector2i(x,y),*((Window*)SvIV(ST(0))));
+			if(!sv_isa(ST(4), "SFML::Window::Window"))
+				croak("Usage: SFML::Window::Mouse::setPosition(x,y)\n       SFML::Window::Mouse::setPosition(x,y,window)");
+			Mouse::setPosition(Vector2i(x,y),*((Window*)SvIV(SvRV(ST(0)))));
 		} else {
 			Mouse::setPosition(Vector2i(x,y));
 		}
@@ -283,6 +287,84 @@ getFullscreenModes()
 			PUSHs(sv_2mortal(sv));
 		}
 
+SV *
+eq(left, right, swap)
+	VideoMode* left
+	VideoMode* right
+	int swap
+	OVERLOAD: ==
+	CODE:
+		RETVAL = newSViv((*right) == (*left));
+	OUTPUT:
+		RETVAL
+
+SV *
+ne(left, right, swap)
+	VideoMode* left
+	VideoMode* right
+	int swap
+	OVERLOAD: !=
+	CODE:
+		RETVAL = newSViv((*right) != (*left));
+	OUTPUT:
+		RETVAL
+
+SV *
+lt(left, right, swap)
+	VideoMode* left
+	VideoMode* right
+	int swap
+	OVERLOAD: <
+	CODE:
+		if(swap)
+			RETVAL = newSViv((*right) < (*left));
+		else
+			RETVAL = newSViv((*left) < (*right));
+	OUTPUT:
+		RETVAL
+
+SV *
+gt(left, right, swap)
+	VideoMode* left
+	VideoMode* right
+	int swap
+	OVERLOAD: >
+	CODE:
+		if(swap)
+			RETVAL = newSViv((*right) > (*left));
+		else
+			RETVAL = newSViv((*left) > (*right));
+	OUTPUT:
+		RETVAL
+
+SV *
+le(left, right, swap)
+	VideoMode* left
+	VideoMode* right
+	int swap
+	OVERLOAD: <=
+	CODE:
+		if(swap)
+			RETVAL = newSViv((*right) <= (*left));
+		else
+			RETVAL = newSViv((*left) <= (*right));
+	OUTPUT:
+		RETVAL
+
+SV *
+ge(left, right, swap)
+	VideoMode* left
+	VideoMode* right
+	int swap
+	OVERLOAD: >=
+	CODE:
+		if(swap)
+			RETVAL = newSViv((*right) >= (*left));
+		else
+			RETVAL = newSViv((*left) >= (*right));
+	OUTPUT:
+		RETVAL
+
 MODULE = SFML		PACKAGE = SFML::Window::Window
 
 Window*
@@ -291,6 +373,9 @@ Window::new(mode, title, ...)
 	char * title
 	CODE:
 		if(items >= 5){
+			if(!sv_isa(ST(4), "SFML::Window::ContextSettings"))
+				croak("Usage: new SFML::Window::Window(mode, title, "
+				"style=SFML::Window::Style::Default, contextsettings=new contextsettings");
 			RETVAL = new Window(*mode, std::string(title), SvIV(ST(3)), *((ContextSettings*) SvIV(SvRV(ST(4)))));
 		} else if (items >= 4){
 			RETVAL = new Window(*mode, std::string(title), SvIV(ST(3)));
@@ -310,6 +395,9 @@ Window::create(mode, title, ...)
 	CODE:
 		//STACK_DUMP
 		if(items >= 5){
+			if(!sv_isa(ST(4), "SFML::Window::ContextSettings"))
+				croak("Usage: new SFML::Window::Window(mode, title, "
+				"style=SFML::Window::Style::Default, contextsettings=new contextsettings");
 			THIS->create(*mode, std::string(title), SvIV(ST(3)), *((ContextSettings*) SvIV(SvRV(ST(4)))));
 		} else if (items >= 4){
 			THIS->create(*mode, std::string(title), SvIV(ST(3)));

@@ -4,10 +4,12 @@ use Config;
 # See lib/ExtUtils/MakeMaker.pm for details of how to influence
 # the contents of the Makefile that is written.
 
+my $suppressedwarnings = "-Wno-unused-variable -Wno-duplicate-decl-specifier";
+
 my $clang = `clang -v 2>&1` ne '';
 print "Using clang compiler\n" if ($clang);
 my $gpp      = `g++ -v 2>&1` ne '';
-my $fallback = $Config{cc} . " -x c++ -Wall -ggdb";
+my $fallback = $Config{cc} . " -x c++ -Wall -ggdb $suppressedwarnings";
 
 my $compiler = WriteMakefile(
 	NAME          => 'SFML',
@@ -16,9 +18,9 @@ my $compiler = WriteMakefile(
 	ABSTRACT_FROM => 'lib/SFML.pm',                                                                          # retrieve abstract from module
 	AUTHOR        => 'Jake Bott <jakeanq@gmail.com>, Gosha Tugai <whatever.the.correct@email.address.is>',
 	CC            => (
-		$clang ? 'clang -x c++ -Wall -ggdb -Wno-duplicate-decl-specifier'
+		$clang ? "clang -x c++ -Wall -ggdb $suppressedwarnings"
 		: (
-			  $gpp ? 'g++ -Wall -ggdb'
+			  $gpp ? "g++ -Wall -ggdb $suppressedwarnings"
 			: $fallback
 		)
 	),
