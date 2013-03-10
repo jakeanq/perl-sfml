@@ -15,6 +15,7 @@ MODULE = SFML		PACKAGE = SFML::Window::ContextSettings
 ContextSettings*
 ContextSettings::new(...)
 	CODE:
+		//STACK_DUMP
 		RETVAL = new ContextSettings();
 		ARG_P_BEGIN
 			ARG_P_OPTION("depthBits")
@@ -290,7 +291,7 @@ Window::new(mode, title, ...)
 	char * title
 	CODE:
 		if(items >= 4){
-			RETVAL = new Window(*mode, std::string(title), SvIV(ST(3)), *((ContextSettings*) SvIV(ST(4))));
+			RETVAL = new Window(*mode, std::string(title), SvIV(ST(3)), *((ContextSettings*) SvIV(SvRV(ST(4)))));
 		} else if (items >= 3){
 			RETVAL = new Window(*mode, std::string(title), SvIV(ST(3)));
 		} else {
@@ -307,9 +308,10 @@ Window::create(mode, title, ...)
 	VideoMode* mode
 	char * title
 	CODE:
-		if(items >= 4){
-			THIS->create(*mode, std::string(title), SvIV(ST(3)), *((ContextSettings*) SvIV(ST(4))));
-		} else if (items >= 3){
+		//STACK_DUMP
+		if(items >= 5){
+			THIS->create(*mode, std::string(title), SvIV(ST(3)), *((ContextSettings*) SvIV(SvRV(ST(4)))));
+		} else if (items >= 4){
 			THIS->create(*mode, std::string(title), SvIV(ST(3)));
 		} else {
 			new Window(*mode, std::string(title));
@@ -353,16 +355,17 @@ Window::getSize()
 	Vector2u v;
 	PPCODE:
 		v = THIS->getSize();
+		fprintf(stderr, "Size to %u, %u\n", v.x, v.y); 
 		EXTEND(SP, 2);
-		PUSHs(sv_2mortal(newSViv((int)v.x)));
-		PUSHs(sv_2mortal(newSViv((int)v.y)));
+		PUSHs(sv_2mortal(newSVuv(v.x)));
+		PUSHs(sv_2mortal(newSVuv(v.y)));
 
 void
 Window::setSize(x,y)
-	int x
-	int y
+	unsigned int x
+	unsigned int y
 	CODE:
-		THIS->setPosition(Vector2i((unsigned int)x,(unsigned int)y));
+		THIS->setSize(Vector2u(x,y));
 
 void
 Window::setTitle(title)
@@ -425,14 +428,16 @@ Window::setActive(...)
 			RETVAL = THIS->setActive(SvTRUE(ST(1)));
 		else
 			RETVAL = THIS->setActive(true);
+	OUTPUT:
+		RETVAL
 
 void
 Window::display()
 
 void
 Window::setIcon(x,y,pixels)
-	int x
-	int y
+	unsigned int x
+	unsigned int y
 	void * pixels
 	CODE:
 		THIS->setIcon(x,y,(Uint8*)pixels);
