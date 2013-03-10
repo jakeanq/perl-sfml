@@ -40,35 +40,35 @@ ContextSettings::new(...)
 void
 ContextSettings::DESTROY()
 
-int
+unsigned int
 ContextSettings::getDepthBits()
 	CODE:
 		RETVAL = THIS->depthBits;
 	OUTPUT:
 		RETVAL
 
-int
+unsigned int
 ContextSettings::getStencilBits()
 	CODE:
 		RETVAL = THIS->stencilBits;
 	OUTPUT:
 		RETVAL
 
-int
+unsigned int
 ContextSettings::getAntialiasingLevel()
 	CODE:
 		RETVAL = THIS->antialiasingLevel;
 	OUTPUT:
 		RETVAL
 
-int
+unsigned int
 ContextSettings::getMajorVersion()
 	CODE:
 		RETVAL = THIS->majorVersion;
 	OUTPUT:
 		RETVAL
 
-int
+unsigned int
 ContextSettings::getMinorVersion()
 	CODE:
 		RETVAL = THIS->minorVersion;
@@ -78,31 +78,31 @@ ContextSettings::getMinorVersion()
 
 void
 ContextSettings::setDepthBits(depthBits)
-	int depthBits
+	unsigned int depthBits
 	CODE:
 		THIS->depthBits = depthBits;
 
 void
 ContextSettings::setStencilBits(stencilBits)
-	int stencilBits
+	unsigned int stencilBits
 	CODE:
 		THIS->stencilBits = stencilBits;
 
 void
 ContextSettings::setAntialiasingLevel(antialiasingLevel)
-	int antialiasingLevel
+	unsigned int antialiasingLevel
 	CODE:
 		THIS->antialiasingLevel = antialiasingLevel;
 
 void
 ContextSettings::setMajorVersion(majorVersion)
-	int majorVersion
+	unsigned int majorVersion
 	CODE:
 		THIS->majorVersion = majorVersion;
 
 void
 ContextSettings::setMinorVersion(minorVersion)
-	int minorVersion
+	unsigned int minorVersion
 	CODE:
 		THIS->minorVersion = minorVersion;
 
@@ -110,15 +110,15 @@ MODULE = SFML		PACKAGE = SFML::Window::Joystick
 
 bool
 isConnected(joystick_id)
-	int joystick_id
+	unsigned int joystick_id
 	CODE:
 		RETVAL = Joystick::isConnected(joystick_id);
 	OUTPUT:
 		RETVAL
 
-int
+unsigned int
 getButtonCount(joystick_id)
-	int joystick_id
+	unsigned int joystick_id
 	CODE:
 		RETVAL = Joystick::getButtonCount(joystick_id);
 	OUTPUT:
@@ -126,7 +126,7 @@ getButtonCount(joystick_id)
 
 bool
 hasAxis(joystick_id, axis)
-	int joystick_id	
+	unsigned int joystick_id	
 	int axis
 	CODE:
 		RETVAL = Joystick::hasAxis(joystick_id, (sf::Joystick::Axis) axis);
@@ -135,8 +135,8 @@ hasAxis(joystick_id, axis)
 
 bool
 isButtonPressed(joystick_id, button)
-	int joystick_id
-	int button
+	unsigned int joystick_id
+	unsigned int button
 	CODE:
 		RETVAL = Joystick::isButtonPressed(joystick_id,button);
 	OUTPUT:
@@ -144,7 +144,7 @@ isButtonPressed(joystick_id, button)
 
 float
 getAxisPosition(joystick_id, axis)
-	int joystick_id
+	unsigned int joystick_id
 	int axis
 	CODE:
 		RETVAL = Joystick::getAxisPosition(joystick_id, (sf::Joystick::Axis) axis);
@@ -221,21 +221,21 @@ VideoMode::DESTROY()
 bool
 VideoMode::isValid()
 
-int
+unsigned int
 VideoMode::getWidth()
 	CODE:
 		RETVAL = THIS->width;
 	OUTPUT:
 		RETVAL
 
-int
+unsigned int
 VideoMode::getHeight()
 	CODE:
 		RETVAL = THIS->height;
 	OUTPUT:
 		RETVAL
 
-int
+unsigned int
 VideoMode::getBitsPerPixel()
 	CODE:
 		RETVAL = THIS->bitsPerPixel;
@@ -245,19 +245,19 @@ VideoMode::getBitsPerPixel()
 
 void
 VideoMode::setWidth(width)
-	int width
+	unsigned int width
 	CODE:
 		THIS->width = width;
 
 void
 VideoMode::setHeight(height)
-	int height
+	unsigned int height
 	CODE:
 		THIS->height = height;
 
 void
 VideoMode::setBitsPerPixel(bitsPerPixel)
-	int bitsPerPixel
+	unsigned int bitsPerPixel
 	CODE:
 		THIS->bitsPerPixel = bitsPerPixel;
 
@@ -406,20 +406,13 @@ Window::setKeyRepeatEnabled(...)
 			THIS->setKeyRepeatEnabled(true);
 
 void
-Window::setFramerateLimit(...)
-	CODE:
-		if(items >= 1)
-			THIS->setFramerateLimit(SvTRUE(ST(1)));
-		else
-			THIS->setFramerateLimit(true);
+Window::setFramerateLimit(limit)
+	unsigned int limit
 
 void
-Window::setJoystickThreshold(...)
-	CODE:
-		if(items >= 1)
-			THIS->setJoystickThreshold(SvTRUE(ST(1)));
-		else
-			THIS->setJoystickThreshold(true);
+Window::setJoystickThreshold(threshold)
+	float threshold
+
 
 bool
 Window::setActive(...)
