@@ -7,6 +7,12 @@ www.sfml-dev.org/
 
 INSTALLATION
 
+This module should work on any system that SFML does, including but
+not limited to:
+	Linux
+	MacOSX
+	Windows
+
 To install this module type the following:
 
    perl Makefile.PL
@@ -18,10 +24,33 @@ DEPENDENCIES
 
 This module requires these other modules and libraries:
 
-None, so far as I know...
+SFML 2.0 RC
+A windowing environment (the module may install without one, but you
+	do so at your own risk)
+OpenGL/POGL (if you want to be able to render stuff using raw OpenGL
+	commands.  Once the graphics module is implemented, this
+	should just work anyway.
 
 COPYRIGHT AND LICENCE
 
 See the LICENCE file
 
+TODO
 
+So far, only the Window module of SFML has been (mostly) implemented.
+
+The Graphics and Audio modules are coming (hopefully) pretty soonish.
+
+The System and Network modules have not and *will not* be implemented
+due to their functions being pretty similar to existing perl modules.
+If you desperatly feel the need for the use of one of these modules,
+you will need to follow these few simple steps:
+	1) Clone the project on Github
+	2) Add in the required code
+	3) Send me a pull request
+	4) Wait for the merge to be merged
+	5) Install and use the modules!
+
+RECENT CHANGES
+
+Everything!
