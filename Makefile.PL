@@ -22,6 +22,7 @@ my $compiler = WriteMakefile(
 	BUILD_REQUIRES => {
 		ExtUtils::CBuilder => 0,
 	},
+	LICENSE => 'zlib',
 	VERSION_FROM  => 'lib/SFML.pm',                                                                          # finds $VERSION
 	PREREQ_PM     => {},                                                                                     # e.g., Module::Name => 1.1
 	ABSTRACT_FROM => 'lib/SFML.pm',                                                                          # retrieve abstract from module

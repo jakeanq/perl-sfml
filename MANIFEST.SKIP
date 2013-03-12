@@ -1,1 +1,10 @@
 tidy\.pl
+\.git.+
+\.perltidyrc
+blib
+\.old
+\.c
+\.o
+\.bs
+MYMETA
+\bMakefile$

@@ -10,3 +10,4 @@ pm_to_blib
 *.geanyprj
 *.geany
 *.trace
+*.bak
