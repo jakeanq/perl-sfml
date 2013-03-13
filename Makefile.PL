@@ -6,9 +6,9 @@ use Config;
 
 my $suppressedwarnings = "-Wno-unused-variable -Wno-duplicate-decl-specifier";
 
-my $clang = `clang -v 2>&1` ne '';
+my $clang = `clang -v 2>&1`=~/^clang version [^ ]{2,}/;
 
-my $gpp      = `g++ -v 2>&1` ne '';
+my $gpp      = `g++ -v 2>&1`=~/^gcc version [^ ]{3,}/m;
 my $fallback = $Config{cc} . " -x c++ -Wall -ggdb $suppressedwarnings";
 if ($clang) {
 	print "Using clang compiler\n";
