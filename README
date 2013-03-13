@@ -37,6 +37,12 @@ See the LICENCE file
 
 TODO
 
+- [HIGH] Add in the SFML::Window::Event class
+- [HIGH] Add in constants
+- [MED ] Add in EXPORT_OK stuff and related
+- [LOW ] Split XS into multiple modules
+- [LOW ] Add XS for graphics
+
 So far, only the Window module of SFML has been (mostly) implemented.
 
 The Graphics and Audio modules are coming (hopefully) pretty soonish.
