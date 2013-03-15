@@ -522,3 +522,247 @@ Window::setIcon(x,y,pixels)
 	void * pixels
 	CODE:
 		THIS->setIcon(x,y,(Uint8*)pixels);
+
+MODULE = SFML		PACKAGE = SFML::Window::Event
+
+Event*
+Event::new()
+
+void
+Event::DESTROY()
+
+int
+Event::type()
+	CODE:
+		RETVAL = THIS->type;
+	OUTPUT:
+		RETVAL
+
+SizeEvent*
+Event::size()
+	PREINIT:
+		const char * CLASS = "SFML::Window::SizeEvent";
+	CODE:
+		RETVAL = &THIS->size;
+	OUTPUT:
+		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Window::SizeEvent
+
+SizeEvent*
+SizeEvent::new()
+
+void
+SizeEvent::DESTROY()
+
+int
+SizeEvent::width()
+	CODE:
+		RETVAL = THIS->width;
+	OUTPUT:
+		RETVAL
+
+int
+SizeEvent::height()
+	CODE:
+		RETVAL = THIS->height;
+	OUTPUT:
+		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Window::Event
+
+KeyEvent*
+Event::key()
+	PREINIT:
+		const char * CLASS = "SFML::Window::KeyEvent";
+	CODE:
+		RETVAL = &THIS->key;
+	OUTPUT:
+		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Window::KeyEvent
+
+KeyEvent*
+KeyEvent::new()
+
+void
+KeyEvent::DESTROY()
+
+int
+KeyEvent::code()
+	CODE:
+		RETVAL = THIS->code;
+	OUTPUT:
+		RETVAL
+
+bool
+KeyEvent::alt()
+	CODE:
+		RETVAL = THIS->alt;
+	OUTPUT:
+		RETVAL
+
+bool
+KeyEvent::control()
+	CODE:
+		RETVAL = THIS->control;
+	OUTPUT:
+		RETVAL
+
+bool
+KeyEvent::shift()
+	CODE:
+		RETVAL = THIS->shift;
+	OUTPUT:
+		RETVAL
+
+bool
+KeyEvent::system()
+	CODE:
+		RETVAL = THIS->system;
+	OUTPUT:
+		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Window::Event
+
+TextEvent*
+Event::text()
+	PREINIT:
+		const char * CLASS = "SFML::Window::TextEvent";
+	CODE:
+		RETVAL = &THIS->text;
+	OUTPUT:
+		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Window::TextEvent
+
+TextEvent*
+TextEvent::new()
+
+void
+TextEvent::DESTROY()
+
+char*
+TextEvent::unicode()
+	CODE:
+		RETVAL = (char*) malloc(4); //TODO: Figure out if this actually works!
+		Uint32 ch = THIS->unicode;
+		RETVAL[0] = (ch << 8*3) & 0x000000FF;
+		RETVAL[1] = (ch << 8*2) & 0x0000FF00;
+		RETVAL[2] = (ch << 8*1) & 0x00FF0000;
+		RETVAL[3] = (ch       ) & 0xFF000000;
+	OUTPUT:
+		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Window::Event
+
+MouseMoveEvent*
+Event::mouseMove()
+	PREINIT:
+		const char * CLASS = "SFML::Window::MouseMoveEvent";
+	CODE:
+		RETVAL = &THIS->mouseMove;
+	OUTPUT:
+		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Window::MouseMoveEvent
+
+MouseMoveEvent*
+MouseMoveEvent::new()
+
+void
+MouseMoveEvent::DESTROY()
+
+int
+MouseMoveEvent::x()
+	CODE:
+		RETVAL = THIS->x;
+	OUTPUT:
+		RETVAL
+
+int
+MouseMoveEvent::y()
+	CODE:
+		RETVAL = THIS->y;
+	OUTPUT:
+		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Window::Event
+
+MouseButtonEvent*
+Event::mouseButton()
+	PREINIT:
+		const char * CLASS = "SFML::Window::MouseButtonEvent";
+	CODE:
+		RETVAL = &THIS->mouseButton;
+	OUTPUT:
+		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Window::MouseButtonEvent
+
+MouseButtonEvent*
+MouseButtonEvent::new()
+
+void
+MouseButtonEvent::DESTROY()
+
+int
+MouseButtonEvent::x()
+	CODE:
+		RETVAL = THIS->x;
+	OUTPUT:
+		RETVAL
+
+int
+MouseButtonEvent::y()
+	CODE:
+		RETVAL = THIS->y;
+	OUTPUT:
+		RETVAL
+
+int
+MouseButtonEvent::button()
+	CODE:
+		RETVAL = THIS->button;
+	OUTPUT:
+		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Window::Event
+
+MouseWheelEvent*
+Event::mouseWheel()
+	PREINIT:
+		const char * CLASS = "SFML::Window::MouseWheelEvent";
+	CODE:
+		RETVAL = &THIS->mouseWheel;
+	OUTPUT:
+		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Window::MouseWheelEvent
+
+MouseWheelEvent*
+MouseWheelEvent::new()
+
+void
+MouseWheelEvent::DESTROY()
+
+int
+MouseWheelEvent::x()
+	CODE:
+		RETVAL = THIS->x;
+	OUTPUT:
+		RETVAL
+
+int
+MouseWheelEvent::y()
+	CODE:
+		RETVAL = THIS->y;
+	OUTPUT:
+		RETVAL
+
+int
+MouseWheelEvent::delta()
+	CODE:
+		RETVAL = THIS->delta;
+	OUTPUT:
+		RETVAL

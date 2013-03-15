@@ -1,5 +1,5 @@
-perl-sfml v0.1-alpha (SFML v2.0 RC)
-===================================
+perl-sfml v0.01 (SFML v2.0 RC)
+==============================
 
 This project aims to provide perl bindings to the SFML library.
 
@@ -38,9 +38,10 @@ See the LICENCE file
 TODO
 
 - [HIGH] Add in the SFML::Window::Event class
+- [MED ] Add in missing event-dependent functions
 - [MED ] Add in EXPORT_OK stuff and related
 - [LOW ] Split XS into multiple modules
-- [LOW ] Add XS for graphics and other modules
+- [LOW ] Add XS for graphics and audio modules
 
 So far, only the Window module of SFML has been (mostly) implemented.
 

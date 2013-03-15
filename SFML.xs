@@ -39,6 +39,13 @@ extern "C" {
 
 using namespace sf;
 
+typedef Event::SizeEvent SizeEvent;
+typedef Event::KeyEvent KeyEvent;
+typedef Event::TextEvent TextEvent;
+typedef Event::MouseMoveEvent MouseMoveEvent;
+typedef Event::MouseButtonEvent MouseButtonEvent;
+typedef Event::MouseWheelEvent MouseWheelEvent;
+
 MODULE = SFML		PACKAGE = SFML		
 
 PROTOTYPES: ENABLE
