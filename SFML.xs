@@ -39,12 +39,15 @@ extern "C" {
 
 using namespace sf;
 
-typedef Event::SizeEvent SizeEvent;
-typedef Event::KeyEvent KeyEvent;
-typedef Event::TextEvent TextEvent;
-typedef Event::MouseMoveEvent MouseMoveEvent;
-typedef Event::MouseButtonEvent MouseButtonEvent;
-typedef Event::MouseWheelEvent MouseWheelEvent;
+typedef Event::SizeEvent		SizeEvent;
+typedef Event::KeyEvent			KeyEvent;
+typedef Event::TextEvent		TextEvent;
+typedef Event::MouseMoveEvent		MouseMoveEvent;
+typedef Event::MouseButtonEvent		MouseButtonEvent;
+typedef Event::MouseWheelEvent		MouseWheelEvent;
+typedef Event::JoystickMoveEvent	JoystickMoveEvent;
+typedef Event::JoystickButtonEvent	JoystickButtonEvent;
+typedef Event::JoystickConnectEvent	JoystickConnectEvent;
 
 MODULE = SFML		PACKAGE = SFML		
 

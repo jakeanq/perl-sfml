@@ -766,3 +766,102 @@ MouseWheelEvent::delta()
 		RETVAL = THIS->delta;
 	OUTPUT:
 		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Window::Event
+
+JoystickMoveEvent*
+Event::joystickMove()
+	PREINIT:
+		const char * CLASS = "SFML::Window::JoystickMoveEvent";
+	CODE:
+		RETVAL = &THIS->joystickMove;
+	OUTPUT:
+		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Window::JoystickMoveEvent
+
+JoystickMoveEvent*
+JoystickMoveEvent::new()
+
+void
+JoystickMoveEvent::DESTROY()
+
+unsigned int
+JoystickMoveEvent::joystickId()
+	CODE:
+		RETVAL = THIS->joystickId;
+	OUTPUT:
+		RETVAL
+
+int
+JoystickMoveEvent::axis()
+	CODE:
+		RETVAL = THIS->axis;
+	OUTPUT:
+		RETVAL
+
+float
+JoystickMoveEvent::position()
+	CODE:
+		RETVAL = THIS->position;
+	OUTPUT:
+		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Window::Event
+
+JoystickButtonEvent*
+Event::joystickButton()
+	PREINIT:
+		const char * CLASS = "SFML::Window::JoystickButtonEvent";
+	CODE:
+		RETVAL = &THIS->joystickButton;
+	OUTPUT:
+		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Window::JoystickButtonEvent
+
+JoystickButtonEvent*
+JoystickButtonEvent::new()
+
+void
+JoystickButtonEvent::DESTROY()
+
+unsigned int
+JoystickButtonEvent::joystickId()
+	CODE:
+		RETVAL = THIS->joystickId;
+	OUTPUT:
+		RETVAL
+
+int
+JoystickButtonEvent::button()
+	CODE:
+		RETVAL = THIS->button;
+	OUTPUT:
+		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Window::Event
+
+JoystickConnectEvent*
+Event::joystickConnect()
+	PREINIT:
+		const char * CLASS = "SFML::Window::JoystickConnectEvent";
+	CODE:
+		RETVAL = &THIS->joystickConnect;
+	OUTPUT:
+		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Window::JoystickConnectEvent
+
+JoystickConnectEvent*
+JoystickConnectEvent::new()
+
+void
+JoystickConnectEvent::DESTROY()
+
+unsigned int
+JoystickConnectEvent::joystickId()
+	CODE:
+		RETVAL = THIS->joystickId;
+	OUTPUT:
+		RETVAL

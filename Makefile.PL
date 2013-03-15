@@ -36,7 +36,7 @@ my $compiler = WriteMakefile(
 	),
 	LD       => $Config{ld} . ' -Wall -ggdb',
 	XSOPT    => '-C++',
-	TYPEMAPS => ['perlobject.map'],
+	TYPEMAPS => ['perlobject.map', 'typemaps/Window.map'],
 	LIBS     => ['-lGL -lsfml-window -lsfml-system'],                                                        # e.g., '-lm'
 	DEFINE   => '',                                                                                          # e.g., '-DHAVE_SOMETHING'
 	INC      => '-I.',                                                                                       # e.g., '-I. -I/usr/include/other'
