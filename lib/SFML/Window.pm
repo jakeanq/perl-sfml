@@ -31,7 +31,7 @@ our $VERSION = '0.01';    # Alpha!
 require XSLoader;
 XSLoader::load('SFML', $VERSION);
 
-package SFML::Style;
+package SFML::Window::Style;
 
 use constant {
 	None       => 0,
@@ -41,7 +41,7 @@ use constant {
 	Fullscreen => 1 << 3,
 	Default    => ((1 << 0) | (1 << 1) | (1 << 2)), };
 
-package SFML::EventType;
+package SFML::Window::Event;
 
 use constant {
 	Closed                 => 0,
@@ -64,7 +64,7 @@ use constant {
 	JoystickDisconnected   => 17,
 	Count                  => 18 };
 
-package SFML::Keyboard;
+package SFML::Window::Keyboard;
 
 use constant {
 	A         => 0,
@@ -170,7 +170,7 @@ use constant {
 	Pause     => 100,
 	KeyCount  => 101 };
 
-package SFML::Mouse::Button;
+package SFML::Window::Mouse::Button;
 
 use constant {
 	Left        => 0,
@@ -180,7 +180,7 @@ use constant {
 	XButton2    => 4,
 	ButtonCount => 5 };
 
-package SFML::Joystick::Axis;
+package SFML::Window::Joystick::Axis;
 
 use constant {
 	X    => 0,
@@ -192,7 +192,7 @@ use constant {
 	PovX => 6,
 	PovY => 7 };
 
-package SFML::Joystick;
+package SFML::Window::Joystick;
 
 use constant {
 	Count       => 8,

@@ -523,6 +523,26 @@ Window::setIcon(x,y,pixels)
 	CODE:
 		THIS->setIcon(x,y,(Uint8*)pixels);
 
+bool
+Window::pollEvent(event)
+	Event* event
+	PREINIT:
+		const char * CLASS = "SFML::Window::Event";
+	CODE:
+		RETVAL = THIS->pollEvent(*event);
+	OUTPUT:
+		RETVAL
+
+bool
+Window::waitEvent(event)
+	Event* event
+	PREINIT:
+		const char * CLASS = "SFML::Window::Event";
+	CODE:
+		RETVAL = THIS->waitEvent(*event);
+	OUTPUT:
+		RETVAL
+
 MODULE = SFML		PACKAGE = SFML::Window::Event
 
 Event*

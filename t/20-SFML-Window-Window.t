@@ -8,7 +8,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 5 + 5 + 3;
+use Test::More tests => 5 + 5 + 4;
 BEGIN { use_ok('SFML::Window'); }
 
 #########################
@@ -25,11 +25,11 @@ isa_ok($window, "SFML::Window::Window");
 can_ok($window, qw(create close isOpen getSettings getPosition setPosition getSize setSize setTitle));
 can_ok($window, qw(setVisible setIcon setVerticalSyncEnabled setMouseCursorVisible setKeyRepeatEnabled));
 can_ok($window, qw(setFramerateLimit setJoystickThreshold setActive display));
-#can_ok($window, qw(pollEvent waitEvent));
+can_ok($window, qw(pollEvent waitEvent));
 
 my $cs = SFML::Window::ContextSettings->new(depthBits => 24, stencilBits => 8, minorVersion => 1);
 isa_ok($cs, 'SFML::Window::ContextSettings');
-$window->create($vm, "perl-sfml test window", SFML::Style::Default, $cs);
+$window->create($vm, "perl-sfml test window", SFML::Window::Style::Default, $cs);
 isa_ok($window, 'SFML::Window::Window');
 my $c = $window->getSettings;
 isa_ok($c, "SFML::Window::ContextSettings");
