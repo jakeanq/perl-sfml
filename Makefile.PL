@@ -6,9 +6,9 @@ use Config;
 
 my $suppressedwarnings = "-Wno-unused-variable -Wno-duplicate-decl-specifier";
 
-my $clang = `clang -v 2>&1`=~/^clang version [^ ]{2,}/;
+my $clang = `clang -v 2>&1` =~ /^clang version [^ ]{2,}/;
 
-my $gpp      = `g++ -v 2>&1`=~/^gcc version [^ ]{3,}/m;
+my $gpp      = `g++ -v 2>&1` =~ /^gcc version [^ ]{3,}/m;
 my $fallback = $Config{cc} . " -x c++ -Wall -ggdb $suppressedwarnings";
 if ($clang) {
 	print "Using clang compiler\n";
@@ -18,11 +18,11 @@ if ($clang) {
 	print "Using fallback compiler (" . $Config{cc} . ")\n";
 }
 my $compiler = WriteMakefile(
-	NAME     => 'SFML',
+	NAME           => 'SFML',
 	BUILD_REQUIRES => {
 		ExtUtils::CBuilder => 0,
 	},
-	LICENSE => 'zlib',
+	LICENSE       => 'zlib',
 	VERSION_FROM  => 'lib/SFML.pm',                                                                          # finds $VERSION
 	PREREQ_PM     => {},                                                                                     # e.g., Module::Name => 1.1
 	ABSTRACT_FROM => 'lib/SFML.pm',                                                                          # retrieve abstract from module

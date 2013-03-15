@@ -45,7 +45,7 @@ sub stats {
 					return if $_ eq $0;
 					return if /\.(?:(?:BASE)|(?:BACKUP)|(?:LOCAL)|(?:REMOTE))\.\d+/ or /\.orig$/;
 					my $pth = $_;
-					return if $pth =~ m#/blib/#;
+					return if $pth =~ m#blib/#;
 					$pth =~ s/^\.\///;
 					my $t = `wc -l $pth`;
 					$t =~ s/(\d+).*/$1/;
@@ -97,7 +97,7 @@ find({
 				return if $_ eq $0;
 				return if /\.(?:(?:BASE)|(?:BACKUP)|(?:LOCAL)|(?:REMOTE))\.\d+/ or /\.orig$/;
 				my $pth = $_;
-				return if $pth =~ m#/blib/#;
+				return if $pth =~ m#blib/#;
 				$pth =~ s/^\.\///;
 				my $mn = $pth;
 				$mn =~ s/\//::/g if $mn =~ s/\.pm$//;

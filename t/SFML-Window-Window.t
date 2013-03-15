@@ -9,7 +9,7 @@ use strict;
 use warnings;
 
 use Test::More tests => 5 + 5 + 3;
-BEGIN { use_ok('SFML::Window') }
+BEGIN { use_ok('SFML::Window'); }
 
 #########################
 
@@ -29,8 +29,7 @@ can_ok($window, qw(setFramerateLimit setJoystickThreshold setActive display));
 
 my $cs = SFML::Window::ContextSettings->new(depthBits => 24, stencilBits => 8, minorVersion => 1);
 isa_ok($cs, 'SFML::Window::ContextSettings');
-#TODO: Exchange 7 for SFML::Window::Style::Default when constants are finished.
-$window->create($vm, "perl-sfml test window", 7, $cs);
+$window->create($vm, "perl-sfml test window", SFML::Style::Default, $cs);
 isa_ok($window, 'SFML::Window::Window');
 my $c = $window->getSettings;
 isa_ok($c, "SFML::Window::ContextSettings");
