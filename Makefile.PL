@@ -3,6 +3,8 @@ use ExtUtils::MakeMaker;
 use Config;
 # See lib/ExtUtils/MakeMaker.pm for details of how to influence
 # the contents of the Makefile that is written.
+#use blib "../Alien-SFML/blib/";
+use Alien::SFML;
 
 my $suppressedwarnings = "-Wno-unused-variable -Wno-duplicate-decl-specifier";
 
@@ -20,11 +22,13 @@ if ($clang) {
 my $compiler = WriteMakefile(
 	NAME           => 'SFML',
 	BUILD_REQUIRES => {
-		ExtUtils::CBuilder => 0,
+		'ExtUtils::CBuilder' => 0,
+	},
+	PREREQ_PM => {
+		'Alien::SFML' => 0.01,
 	},
 	LICENSE       => 'zlib',
 	VERSION_FROM  => 'lib/SFML.pm',                                                                          # finds $VERSION
-	PREREQ_PM     => {},                                                                                     # e.g., Module::Name => 1.1
 	ABSTRACT_FROM => 'lib/SFML.pm',                                                                          # retrieve abstract from module
 	AUTHOR        => 'Jake Bott <jakeanq@gmail.com>, Gosha Tugai <whatever.the.correct@email.address.is>',
 	CC            => (
@@ -32,9 +36,9 @@ my $compiler = WriteMakefile(
 		: (
 			  $gpp ? "g++ -Wall -ggdb $suppressedwarnings"
 			: $fallback
-		)
+		) . " " . Alien::SFML::CFLAGS
 	),
-	LD       => $Config{ld} . ' -Wall -ggdb',
+	LD       => $Config{ld} . ' -Wall -ggdb '. Alien::SFML::LIBS,
 	XSOPT    => '-C++',
 	TYPEMAPS => ['perlobject.map', 'typemaps/Window.map'],
 	LIBS     => ['-lGL -lsfml-window -lsfml-system'],                                                        # e.g., '-lm'
