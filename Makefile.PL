@@ -1,14 +1,15 @@
 use 5.008009;
 use ExtUtils::MakeMaker;
 use Config;
-# See lib/ExtUtils/MakeMaker.pm for details of how to influence
-# the contents of the Makefile that is written.
+
 #use blib "../Alien-SFML/blib/";
 use Alien::SFML;
 
+my $alien = Alien::SFML->new;
+
 my $suppressedwarnings = "-Wno-unused-variable -Wno-duplicate-decl-specifier";
 
-my $clang = `clang -v 2>&1` =~ /^clang version [^ ]{2,}/;
+my $clang = `clang -v 2>&1` =~ /clang version [^ ]{2,}/;
 
 my $gpp      = `g++ -v 2>&1` =~ /^gcc version [^ ]{3,}/m;
 my $fallback = $Config{cc} . " -x c++ -Wall -ggdb $suppressedwarnings";
@@ -36,12 +37,13 @@ my $compiler = WriteMakefile(
 		: (
 			  $gpp ? "g++ -Wall -ggdb $suppressedwarnings"
 			: $fallback
-		) . " " . Alien::SFML::CFLAGS
+		)
 	),
-	LD       => $Config{ld} . ' -Wall -ggdb '. Alien::SFML::LIBS,
+	LD       => $Config{ld} . ' -Wall -ggdb ',
 	XSOPT    => '-C++',
+	CCFLAGS  => $alien->cflags(),
 	TYPEMAPS => ['perlobject.map', 'typemaps/Window.map'],
-	LIBS     => ['-lGL -lsfml-window -lsfml-system'],                                                        # e.g., '-lm'
+	LIBS     => [$alien->libs()],                                                        # e.g., '-lm'
 	DEFINE   => '',                                                                                          # e.g., '-DHAVE_SOMETHING'
 	INC      => '-I.',                                                                                       # e.g., '-I. -I/usr/include/other'
 	                                                                                                         # Un-comment this if you add C files to link with later:
