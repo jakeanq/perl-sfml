@@ -42,12 +42,12 @@ my $compiler = WriteMakefile(
 	LD       => $Config{ld} . ' -Wall -ggdb ',
 	XSOPT    => '-C++',
 	CCFLAGS  => $alien->cflags(),
-	TYPEMAPS => ['perlobject.map', 'typemaps/Window.map'],
-	LIBS     => [$alien->libs()],                                                        # e.g., '-lm'
-	DEFINE   => '',                                                                                          # e.g., '-DHAVE_SOMETHING'
-	INC      => '-I.',                                                                                       # e.g., '-I. -I/usr/include/other'
-	                                                                                                         # Un-comment this if you add C files to link with later:
-	                                                                                                         # OBJECT            => '$(O_FILES)', # link all the C files too
+	TYPEMAPS => [ 'perlobject.map', 'typemaps/Window.map' ],
+	LIBS     => [ $alien->libs() ],                            # e.g., '-lm'
+	DEFINE   => '',                                            # e.g., '-DHAVE_SOMETHING'
+	INC      => '-I.',                                         # e.g., '-I. -I/usr/include/other'
+	                                                           # Un-comment this if you add C files to link with later:
+	                                                           # OBJECT            => '$(O_FILES)', # link all the C files too
 );
 
 =head1 COPYRIGHT

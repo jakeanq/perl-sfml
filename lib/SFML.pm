@@ -34,7 +34,7 @@ XSLoader::load('SFML', $VERSION);
 # Preloaded methods go here.
 
 1;
-__END__
+#__END__
 # Below is stub documentation for your module. You'd better edit it!
 
 =head1 NAME
@@ -43,7 +43,27 @@ SFML - Perl extension that enables the use of the SFML multimedia library.
 
 =head1 SYNOPSIS
 
-  use SFML;
+  use SFML::Window;
+  
+  my $window = new SFML::Window::Window(new SFML::Window::VideoMode(800, 600), "perl-sfml");
+  
+  my $event = new SFML::Window::Event;
+  
+  while ($window->isOpen) {
+  
+  	while ($window->pollEvent($event)) {
+  
+  		if ($event->type == SFML::Window::Event::Closed) {
+  
+  			$window->close;
+  
+  		}
+  
+  	}
+  
+  	$window->display;
+  
+  }
 
 =head1 DESCRIPTION
 
@@ -65,13 +85,24 @@ github.com/jakeanq/perl-sfml/
 Jake Bott, E<lt>jakeanq@gmail.comE<gt>
 Gosha Tugai E<lt>whatever.the.correct@email.address.isE<gt>
 
-=head1 COPYRIGHT AND LICENSE
+=head1 BUGS
 
-Copyright (C) 2013 by Jake Bott, Gosha Tugai
+Please report bugs related to the SFML bindings here:
+
+https://github.com/jakeanq/perl-sfml/issues
+
+Note that this is not for bugs in the Alien::SFML module or the SFML library.  For those,
+see the module and library homepages:
+
+https://github.com/jakeanq/perl-alien-sfml/
+
+http://www.sfml-dev.org/
+
+Note that I do not maintain SFML itself, only the SFML module and Alien::SFML
+
+=head1 LICENSE
 
 See the LICENCE file that should have been included with this 
-
-=cut
 
 =head1 COPYRIGHT
 

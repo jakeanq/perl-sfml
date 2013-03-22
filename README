@@ -24,12 +24,9 @@ DEPENDENCIES
 
 This module requires these other modules and libraries:
 
-SFML 2.0 RC - ***INSTALL THIS BEFORE THE PERL MODULE***
-	WARNING: This module does not have an Alien:: counterpart and
-	so you will need to handle the installation of SFML yourself.
-	(Feel free to submit an Alien::SFML module of course!)
+Alien::SFML
 A windowing environment (the module may install without one, but you
-	do so at your own risk)
+	do so at your own risk!)
 OpenGL/POGL (if you want to be able to render stuff using raw OpenGL
 	commands.  Once the graphics module is implemented, this
 	should just work anyway.
@@ -38,13 +35,19 @@ COPYRIGHT AND LICENCE
 
 See the LICENCE file
 
+ ##########################################
+ # Copyright 2013 Jake Bott, Gosha Tugai. #
+ #=>------------------------------------<=#
+ # All Rights Reserved. Part of perl-sfml #
+ ##########################################
+
 TODO
 
 - [HIGH] Add in EXPORT_OK stuff and related
 - [MED ] Split XS into multiple modules
 - [MED ] Add XS for graphics and audio modules
 
-So far, only the Window module of SFML has been (mostly) implemented.
+So far, only the Window module of SFML has been implemented.
 
 The Graphics and Audio modules are coming (hopefully) pretty soonish.
 
@@ -62,6 +65,14 @@ RECENT CHANGES
 
 Everything!
 
-BUGS
+BUGS AND FEATURE REQUESTS
 
 Do you see bugs?  I see no bugs.
+
+https://github.com/jakeanq/perl-sfml/issues if you have better eyesight...
+
+Unless you really mean a bug in SFML itself, in which case:
+
+http://www.sfml-dev.org/
+
+The more logs, the merrier!

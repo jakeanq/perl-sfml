@@ -16,22 +16,21 @@ BEGIN { use_ok('SFML::Window'); }
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
-my $window = new SFML::Window::Window(new SFML::Window::VideoMode(800,600), "perl-sfml");
+my $window = new SFML::Window::Window(new SFML::Window::VideoMode(800, 600), "perl-sfml");
 
 my $tm = time + 30;
 
 my $event = new SFML::Window::Event;
 
-while($window->isOpen){
-	while($window->pollEvent($event)){
-		if($event->type == SFML::Window::Event::Closed || time > $tm){
+while ($window->isOpen) {
+	while ($window->pollEvent($event)) {
+		if ($event->type == SFML::Window::Event::Closed || time > $tm) {
 			$window->close;
 		}
 	}
-	
+
 	$window->display;
 }
-
 
 =head1 COPYRIGHT
 
