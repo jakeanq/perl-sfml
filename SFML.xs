@@ -17,6 +17,7 @@ extern "C" {
 
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 #include <vector>
 #include <string>
 
@@ -54,3 +55,4 @@ MODULE = SFML		PACKAGE = SFML
 PROTOTYPES: ENABLE
 
 INCLUDE: xsrc/Window.xs
+INCLUDE: xsrc/Graphics.xs

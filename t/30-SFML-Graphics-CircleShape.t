@@ -8,29 +8,22 @@
 use strict;
 use warnings;
 
-use Test::More tests => 1;
-BEGIN { use_ok('SFML::Window'); }
+use Test::More tests => 6;
+BEGIN { use_ok('SFML::Graphics') }
 
 #########################
 
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
-my $window = new SFML::Window::Window(new SFML::Window::VideoMode(800, 600), "perl-sfml");
+my $context = new SFML::Graphics::CircleShape(radius => 20, pointCount => 100);
 
-my $tm = time + 3;
+isa_ok($context, "SFML::Graphics::CircleShape");
 
-my $event = new SFML::Window::Event;
-
-while ($window->isOpen) {
-	while ($window->pollEvent($event)) {
-		if ($event->type == SFML::Window::Event::Closed || time > $tm) {
-			$window->close;
-		}
-	}
-
-	$window->display;
-}
+can_ok($context, qw(setRadius setPointCount setTexture setTextureRect setFillColor setOutlineColor setOutlineThickness));
+can_ok($context, qw(getPoint getRadius getPointCount getTextureRect getFillColor getOutlineColor getOutlineThickness));
+can_ok($context, qw(getLocalBounds getGlobalBounds setPosition getPosition setOrigin getOrigin setRotation getRotation));
+can_ok($context, qw(getScale setScale move rotate getTransform getInverseTransform));
 
 =head1 COPYRIGHT
 

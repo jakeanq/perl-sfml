@@ -1,0 +1,5 @@
+TYPEMAP
+CircleShape*		O_OBJECT
+Color*			O_OBJECT
+Texture*		O_OBJECT
+Transform*		O_OBJECT

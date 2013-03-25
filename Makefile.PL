@@ -9,6 +9,9 @@ my $alien = Alien::SFML->new;
 
 my $suppressedwarnings = "-Wno-unused-variable -Wno-duplicate-decl-specifier";
 
+use Data::Dumper;
+print Dumper $alien->libs;
+
 my $clang = `clang -v 2>&1` =~ /clang version [^ ]{2,}/;
 
 my $gpp      = `g++ -v 2>&1` =~ /^gcc version [^ ]{3,}/m;
@@ -42,7 +45,7 @@ my $compiler = WriteMakefile(
 	LD       => $Config{ld} . ' -Wall -ggdb ',
 	XSOPT    => '-C++',
 	CCFLAGS  => $alien->cflags(),
-	TYPEMAPS => [ 'perlobject.map', 'typemaps/Window.map' ],
+	TYPEMAPS => [ 'perlobject.map', 'typemaps/Window.map', 'typemaps/Graphics.map' ],
 	LIBS     => [ $alien->libs() ],                            # e.g., '-lm'
 	DEFINE   => '',                                            # e.g., '-DHAVE_SOMETHING'
 	INC      => '-I.',                                         # e.g., '-I. -I/usr/include/other'
