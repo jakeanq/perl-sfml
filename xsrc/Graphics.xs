@@ -550,10 +550,18 @@ MODULE = SFML		PACKAGE = SFML::Graphics::Font
 Font*
 Font::new(...)
 	CODE:
-		if(items == 2 && sv_isobject(SvRV(ST(1))) && SvTYPE(SvRV(ST(1))) == SVt_PVMG){
-			RETVAL = new Font(*((Font*)SvIV(SvRV(ST(1)))));
-		} else
+		SV* pv = SvRV(ST(1));
+		if(items == 2){
+			if(sv_isobject(ST(1)) && SvTYPE(pv) == SVt_PVMG)
+				RETVAL = new Font(*((Font*)SvIV(pv)));
+			else
+				croak("You appear to not have passed an object to this function");
+		} else if (items == 1)
 			RETVAL = new Font();
+		else
+			croak_xs_usage(cv, "CLASS, [copy]");
+	OUTPUT:
+		RETVAL
 
 Font*
 Font::DESTROY()
@@ -608,7 +616,3 @@ Font::getTexture(characterSize)
 	OUTPUT:
 		RETVAL
 
-Font*
-getDefaultFont()
-	PREINIT:
-		const char * CLASS = "SFML::Graphics::Font";
