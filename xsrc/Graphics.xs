@@ -575,3 +575,40 @@ Font::loadFromMemory(data)
 		RETVAL = THIS->loadFromMemory(dt, len);
 	OUTPUT:
 		RETVAL
+
+Glyph*
+Font::getGlyph(codePoint, characterSize, bold)
+	unsigned int codePoint
+	unsigned int characterSize
+	bool bold
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Glyph";
+	CODE:
+		RETVAL = new Glyph(THIS->getGlyph(codePoint, characterSize, bold));
+	OUTPUT:
+		RETVAL
+
+int
+Font::getKerning(first, second, characterSize);
+	unsigned int first
+	unsigned int second
+	unsigned int characterSize
+
+int
+Font::getLineSpacing(characterSize)
+	unsigned int characterSize
+
+Texture*
+Font::getTexture(characterSize)
+	unsigned int characterSize
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Texture";
+	CODE:
+		RETVAL = (Texture*)(void*)&THIS->getTexture(characterSize);
+	OUTPUT:
+		RETVAL
+
+Font*
+getDefaultFont()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Font";
