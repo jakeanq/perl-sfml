@@ -8,7 +8,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 5 + 3 + 9;
+use Test::More tests => 5 + 3 + 10;
 BEGIN { use_ok('SFML::Window') }
 
 #########################
@@ -27,12 +27,16 @@ can_ok("SFML::Window::VideoMode", qw(getDesktopMode getFullscreenModes));
 isa_ok(SFML::Window::VideoMode::getDesktopMode, "SFML::Window::VideoMode");
 
 $context->setBitsPerPixel(16);
+my $context2 = new SFML::Window::VideoMode(1920, 1080, 32);
+isa_ok($context2, "SFML::Window::VideoMode");
+
 TODO: {
-	my $context2 = new SFML::Window::VideoMode(1920, 1080, 32);
 	my $context3 = new SFML::Window::VideoMode(800, 600);
 	local $TODO = "Operators still need some implementation checks";
-	isa_ok($context2, "SFML::Window::VideoMode");
-
+	if ($context != $context3) {
+		todo_skip 'Operators are still comparing pointers (!= litmus test).', 9;
+	}
+	ok(not ($context != $context3), '!= litmus');
 	cmp_ok($context,  "==", $context3, "==");
 	cmp_ok($context,  "<",  $context2, "<");
 	cmp_ok($context2, ">",  $context,  ">");
@@ -41,7 +45,7 @@ TODO: {
 	cmp_ok($context2, ">=", $context,  ">=");
 	cmp_ok($context3, ">=", $context,  ">=");
 	cmp_ok($context,  "!=", $context2, "!=");
-}
+};
 
 our %t = qw(Width 800 Height 600 BitsPerPixel 16);
 is(eval '$context->get' . $_, $t{$_}, $_) for keys %t;
