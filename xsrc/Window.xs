@@ -199,7 +199,7 @@ setPosition(x,y,...)
 	CODE:
 		if(items > 3) {
 			if(!sv_isa(ST(4), "SFML::Window::Window"))
-				croak("Usage: SFML::Window::Mouse::setPosition(x,y)\n       SFML::Window::Mouse::setPosition(x,y,window)");
+				croak_xs_usage(cv, "x, y, window=current");
 			Mouse::setPosition(Vector2i(x,y),*((Window*)SvIV(SvRV(ST(0)))));
 		} else {
 			Mouse::setPosition(Vector2i(x,y));
@@ -209,13 +209,17 @@ MODULE = SFML		PACKAGE = SFML::Window::VideoMode
 
 VideoMode*
 VideoMode::new(width, height, ...)
-	int width
-	int height
+	unsigned int width
+	unsigned int height
 	CODE:
-		if (items > 3)
-			RETVAL = new VideoMode(width, height, SvIV(ST(3)));
-		else
+		if (items == 4)
+			RETVAL = new VideoMode(width, height, SvUV(ST(3)));
+		else if (items == 3)
 			RETVAL = new VideoMode(width, height);
+		else if (items == 2 && sv_isobject(SvRV(ST(1))) && SvTYPE(SvRV(ST(1))) == SVt_PVMG)
+			RETVAL = new VideoMode(*((VideoMode*)SvIV(SvRV(ST(1)))));
+		else
+			croak_xs_usage(cv, "CLASS, width, height, bitsPerPixel=32");
 	OUTPUT:
 		RETVAL
 
