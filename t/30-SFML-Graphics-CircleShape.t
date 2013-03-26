@@ -8,7 +8,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 6;
+use Test::More tests => 5;
 BEGIN { use_ok('SFML::Graphics') }
 
 #########################
@@ -16,14 +16,16 @@ BEGIN { use_ok('SFML::Graphics') }
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
-my $context = new SFML::Graphics::CircleShape(radius => 20, pointCount => 100);
+my $context = new_ok 'SFML::Graphics::CircleShape', [radius => 20, pointCount => 100];
 
-isa_ok($context, "SFML::Graphics::CircleShape");
+can_ok($context, qw(setRadius setPointCount setTexture setTextureRect setFillColor setOutlineColor setOutlineThickness
+getPoint getRadius getPointCount getTextureRect getFillColor getOutlineColor getOutlineThickness
+getLocalBounds getGlobalBounds setPosition getPosition setOrigin getOrigin setRotation getRotation
+getScale setScale move rotate getTransform getInverseTransform));
 
-can_ok($context, qw(setRadius setPointCount setTexture setTextureRect setFillColor setOutlineColor setOutlineThickness));
-can_ok($context, qw(getPoint getRadius getPointCount getTextureRect getFillColor getOutlineColor getOutlineThickness));
-can_ok($context, qw(getLocalBounds getGlobalBounds setPosition getPosition setOrigin getOrigin setRotation getRotation));
-can_ok($context, qw(getScale setScale move rotate getTransform getInverseTransform));
+is($context->getRadius(),20,'getRadius');
+is($context->getPointCount(),100,'getPointCount');
+
 
 =head1 COPYRIGHT
 
