@@ -8,7 +8,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 4 + 5;
+use Test::More tests => 4 + 5 + 5;
 BEGIN { use_ok('SFML::Window') }
 
 #########################
@@ -20,11 +20,13 @@ my $context = new SFML::Window::ContextSettings(depthBits => 20, stencilBits => 
 
 isa_ok($context, "SFML::Window::ContextSettings");
 
-can_ok($context, qw(setDepthBits setStencilBits setAntialiasingLevel setMajorVersion setMinorVersion));
 can_ok($context, qw(getDepthBits getStencilBits getAntialiasingLevel getMajorVersion getMinorVersion));
+can_ok($context, qw(setDepthBits setStencilBits setAntialiasingLevel setMajorVersion setMinorVersion));
 
 our %t = qw(DepthBits 20 StencilBits 10 AntialiasingLevel 5 MajorVersion 50 MinorVersion 100);
-is(eval '$context->get' . $_, $t{$_}, $_) for keys %t;
+is(eval '$context->get' . $_, $t{$_}, $_.': value from constructor') for keys %t;
+eval '$context->set' . $_ . '('.++$t{$_}.');' for keys %t;
+is(eval '$context->get' . $_, $t{$_}, $_.': value after set') for keys %t;
 
 =head1 COPYRIGHT
 

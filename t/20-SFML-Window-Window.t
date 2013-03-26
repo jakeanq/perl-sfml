@@ -8,7 +8,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 5 + 5 + 4;
+use Test::More tests => 5 + 5 + 1;
 BEGIN { use_ok('SFML::Window'); }
 
 #########################
@@ -18,17 +18,14 @@ BEGIN { use_ok('SFML::Window'); }
 
 my $vm = SFML::Window::VideoMode->new(800, 600);
 isa_ok($vm, 'SFML::Window::VideoMode');
-my $window = new SFML::Window::Window($vm, "perl-sfml test window");
+my $window = new_ok 'SFML::Window::Window', [$vm, "perl-sfml test window"];
 
-isa_ok($window, "SFML::Window::Window");
+can_ok($window, qw(create close isOpen getSettings getPosition setPosition getSize setSize setTitle
+setVisible setIcon setVerticalSyncEnabled setMouseCursorVisible setKeyRepeatEnabled
+setFramerateLimit setJoystickThreshold setActive display
+pollEvent waitEvent));
 
-can_ok($window, qw(create close isOpen getSettings getPosition setPosition getSize setSize setTitle));
-can_ok($window, qw(setVisible setIcon setVerticalSyncEnabled setMouseCursorVisible setKeyRepeatEnabled));
-can_ok($window, qw(setFramerateLimit setJoystickThreshold setActive display));
-can_ok($window, qw(pollEvent waitEvent));
-
-my $cs = SFML::Window::ContextSettings->new(depthBits => 24, stencilBits => 8, minorVersion => 1);
-isa_ok($cs, 'SFML::Window::ContextSettings');
+my $cs = new_ok 'SFML::Window::ContextSettings',['depthBits' => 24, 'stencilBits' => 8, 'minorVersion' => 1];
 $window->create($vm, "perl-sfml test window", SFML::Window::Style::Default, $cs);
 isa_ok($window, 'SFML::Window::Window');
 my $c = $window->getSettings;

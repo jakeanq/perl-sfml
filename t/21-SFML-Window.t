@@ -8,7 +8,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 1;
+use Test::More tests => 5;
 BEGIN { use_ok('SFML::Window'); }
 
 #########################
@@ -16,20 +16,25 @@ BEGIN { use_ok('SFML::Window'); }
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
-my $window = new SFML::Window::Window(new SFML::Window::VideoMode(800, 600), "perl-sfml");
+my $window = new_ok 'SFML::Window::Window', [new_ok('SFML::Window::VideoMode', [800, 600]), "perl-sfml"];
 
-my $tm = time + 3;
+my $tm = time + 1;
 
-my $event = new SFML::Window::Event;
+my $event = new_ok 'SFML::Window::Event';
 
-while ($window->isOpen) {
-	while ($window->pollEvent($event)) {
-		if ($event->type == SFML::Window::Event::Closed || time > $tm) {
-			$window->close;
+{
+	local $SIG{ALRM}=sub {ok(1,'Window created and closed without errors');exit;};
+	alarm 1;
+	while ($window->isOpen) {
+		while ($window->pollEvent($event)) {
+			if ($event->type == SFML::Window::Event::Closed || time > $tm) {
+				$window->close;
+			}
 		}
+		$window->display;
 	}
-
-	$window->display;
+	alarm 0;
+	ok(1,'Window created and closed without errors');
 }
 
 =head1 COPYRIGHT

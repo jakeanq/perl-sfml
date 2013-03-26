@@ -8,7 +8,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 6;
+use Test::More tests => 3;
 BEGIN { use_ok('SFML::Graphics') }
 
 #########################
@@ -16,14 +16,12 @@ BEGIN { use_ok('SFML::Graphics') }
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
-my $context = new SFML::Graphics::ConvexShape(100);
+my $context = new_ok 'SFML::Graphics::ConvexShape', [100];
 
-isa_ok($context, "SFML::Graphics::ConvexShape");
-
-can_ok($context, qw(setPoint setPointCount setTexture setTextureRect setFillColor setOutlineColor setOutlineThickness));
-can_ok($context, qw(getPoint getPointCount getTextureRect getFillColor getOutlineColor getOutlineThickness));
-can_ok($context, qw(getLocalBounds getGlobalBounds setPosition getPosition setOrigin getOrigin setRotation getRotation));
-can_ok($context, qw(getScale setScale move rotate getTransform getInverseTransform));
+can_ok($context, qw(setPoint setPointCount setTexture setTextureRect setFillColor setOutlineColor setOutlineThickness
+getPoint getPointCount getTextureRect getFillColor getOutlineColor getOutlineThickness
+getLocalBounds getGlobalBounds setPosition getPosition setOrigin getOrigin setRotation getRotation
+getScale setScale move rotate getTransform getInverseTransform));
 
 =head1 COPYRIGHT
 
