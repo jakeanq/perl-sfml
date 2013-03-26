@@ -545,3 +545,33 @@ ConvexShape::getInverseTransform()
 	OUTPUT:
 		RETVAL
 
+MODULE = SFML		PACKAGE = SFML::Graphics::Font
+
+Font*
+Font::new(...)
+	CODE:
+		if(items == 2 && sv_isobject(SvRV(ST(1))) && SvTYPE(SvRV(ST(1))) == SVt_PVMG){
+			RETVAL = new Font(*((Font*)SvIV(SvRV(ST(1)))));
+		} else
+			RETVAL = new Font();
+
+Font*
+Font::DESTROY()
+
+bool
+Font::loadFromFile(filename)
+	char * filename
+	CODE:
+		RETVAL = THIS->loadFromFile(std::string(filename));
+	OUTPUT:
+		RETVAL
+
+bool
+Font::loadFromMemory(data)
+	SV* data
+	CODE:
+		STRLEN len;
+		void * dt = SvPV(data, len);
+		RETVAL = THIS->loadFromMemory(dt, len);
+	OUTPUT:
+		RETVAL
