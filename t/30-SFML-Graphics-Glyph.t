@@ -8,7 +8,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 5;
+use Test::More tests => 3;
 BEGIN { use_ok('SFML::Graphics') }
 
 #########################
@@ -16,14 +16,9 @@ BEGIN { use_ok('SFML::Graphics') }
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
-my $color = new_ok 'SFML::Graphics::Color', [255, 255, 255, 255];
+my $color = new_ok 'SFML::Graphics::Glyph';
 
-my $color2 = new_ok 'SFML::Graphics::Color', [255, 255, 255];
-
-new_ok 'SFML::Graphics::Color';
-
-can_ok($color, qw(setR setG setB setA setRGBA
-getR getG getB getA getRGBA));
+can_ok($color, qw(setAdvance getAdvance setTextureRect getTextureRect setBounds getBounds));
 
 #TODO: Add tests for + * == !=
 

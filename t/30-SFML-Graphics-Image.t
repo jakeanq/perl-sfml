@@ -8,7 +8,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 5;
+use Test::More tests => 3;
 BEGIN { use_ok('SFML::Graphics') }
 
 #########################
@@ -16,16 +16,12 @@ BEGIN { use_ok('SFML::Graphics') }
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
-my $color = new_ok 'SFML::Graphics::Color', [255, 255, 255, 255];
+my $img = new_ok 'SFML::Graphics::Image';
 
-my $color2 = new_ok 'SFML::Graphics::Color', [255, 255, 255];
+can_ok($img, qw(create loadFromFile loadFromMemory saveToFile getSize createMaskFromColor
+	copy setPixel getPixel getPixelsPtr flipHorizontally flipVertically));
 
-new_ok 'SFML::Graphics::Color';
-
-can_ok($color, qw(setR setG setB setA setRGBA
-getR getG getB getA getRGBA));
-
-#TODO: Add tests for + * == !=
+#TODO: Add more tests here!
 
 =head1 COPYRIGHT
 

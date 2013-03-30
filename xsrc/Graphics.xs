@@ -213,9 +213,11 @@ Color::new(...)
 			RETVAL = new Color(SvUV(ST(1)), SvUV(ST(2)), SvUV(ST(3)), SvUV(ST(4)));
 		else if(items == 4)
 			RETVAL = new Color(SvUV(ST(1)), SvUV(ST(2)), SvUV(ST(3)));
-		else {
+		else if(items == 1)
 			RETVAL = new Color();
+		else {
 			croak_xs_usage(cv,  "THIS, red=0, green=0, blue=0, alpha=255");
+			XSRETURN_UNDEF;
 		}
 	OUTPUT:
 		RETVAL
@@ -554,8 +556,10 @@ Font::new(...)
 		if(items == 2){
 			if(sv_isobject(ST(1)) && SvTYPE(pv) == SVt_PVMG)
 				RETVAL = new Font(*((Font*)SvIV(pv)));
-			else
-				croak("You appear to not have passed an object to this function");
+			else {
+				warn( "SFML::Graphics::Font::new() -- Argument is not a blessed SV reference" );
+				XSRETURN_UNDEF;
+			}
 		} else if (items == 1)
 			RETVAL = new Font();
 		else
@@ -616,3 +620,193 @@ Font::getTexture(characterSize)
 	OUTPUT:
 		RETVAL
 
+MODULE = SFML		PACKAGE = SFML::Graphics::Glyph
+
+Glyph*
+Glyph::new()
+
+void
+Glyph::DESTROY()
+
+int
+Glyph::getAdvance()
+	CODE:
+		RETVAL = THIS->advance;
+	OUTPUT:
+		RETVAL
+
+void
+Glyph::setAdvance(advance)
+	int advance
+	CODE:
+		THIS->advance = advance;
+
+void
+Glyph::getBounds()
+	CODE:
+		EXTEND(SP,4);
+		XPUSHs(sv_2mortal(newSViv(THIS->bounds.top)));
+		XPUSHs(sv_2mortal(newSViv(THIS->bounds.left)));
+		XPUSHs(sv_2mortal(newSViv(THIS->bounds.width)));
+		XPUSHs(sv_2mortal(newSViv(THIS->bounds.height)));
+
+void
+Glyph::getTextureRect()
+	CODE:
+		EXTEND(SP,4);
+		XPUSHs(sv_2mortal(newSViv(THIS->textureRect.top)));
+		XPUSHs(sv_2mortal(newSViv(THIS->textureRect.left)));
+		XPUSHs(sv_2mortal(newSViv(THIS->textureRect.width)));
+		XPUSHs(sv_2mortal(newSViv(THIS->textureRect.height)));
+
+void
+Glyph::setBounds(top, left, width, height)
+	int top
+	int left
+	int width
+	int height
+	CODE:
+		THIS->bounds.top = top;
+		THIS->bounds.left = left;
+		THIS->bounds.width = width;
+		THIS->bounds.height = height;
+
+void
+Glyph::setTextureRect(top, left, width, height)
+	int top
+	int left
+	int width
+	int height
+	CODE:
+		THIS->bounds.top = top;
+		THIS->bounds.left = left;
+		THIS->bounds.width = width;
+		THIS->bounds.height = height;
+
+MODULE = SFML		PACKAGE = SFML::Graphics::Image
+
+Image*
+Image::new(...)
+	CODE:
+		SV* pv = SvRV(ST(1));
+		if(items == 2){
+			if(sv_isobject(ST(1)) && SvTYPE(pv) == SVt_PVMG)
+				RETVAL = new Image(*((Image*)SvIV(pv)));
+			else {
+				warn( "SFML::Graphics::Image::new() -- Argument is not a blessed SV reference" );
+				XSRETURN_UNDEF;
+			}
+		} else if (items == 1)
+			RETVAL = new Image();
+		else
+			croak_xs_usage(cv, "CLASS, [copy]");
+	OUTPUT:
+		RETVAL
+
+void
+Image::DESTROY()
+
+void
+Image::create(width, height, ...)
+	unsigned int width
+	unsigned int height
+	CODE:
+		if(items == 4 && sv_isobject(ST(3)) && SvTYPE(SvRV(ST(3))) == SVt_PVMG && sv_isa(SvRV(ST(3)), "SFML::Graphics::Color"))
+			THIS->create(width, height, *((Color*) SvIV(SvRV(ST(3)))));
+		else if(items == 4){
+			SV* pv = SvRV(ST(3));
+			if(SvPOK(pv))
+				THIS->create(width, height, (Uint8*) SvPV_nolen(pv));
+			else
+				THIS->create(width, height, (Uint8*) SvIV(pv));
+		} else if(items == 3)
+			THIS->create(width, height);
+		else
+			croak_xs_usage(cv, "THIS, width, height, (pixels | color)");
+
+bool
+Image::loadFromFile(filename)
+	char * filename
+	CODE:
+		RETVAL = THIS->loadFromFile(std::string(filename));
+	OUTPUT:
+		RETVAL
+
+bool
+Image::loadFromMemory(data, size)
+	void * data
+	unsigned int size
+
+bool
+Image::saveToFile(filename)
+	char * filename
+	CODE:
+		RETVAL = THIS->saveToFile(std::string(filename));
+	OUTPUT:
+		RETVAL
+
+void
+Image::getSize()
+	CODE:
+		EXTEND(SP,2);
+		Vector2u r = THIS->getSize();
+		XPUSHs(sv_2mortal(newSVuv(r.x)));
+		XPUSHs(sv_2mortal(newSVuv(r.y)));
+
+void
+Image::createMaskFromColor(color, ...)
+	Color* color
+	CODE:
+		if(items == 3)
+			THIS->createMaskFromColor(*color, SvUV(ST(2)));
+		else if (items == 2)
+			THIS->createMaskFromColor(*color);
+		else
+			croak_xs_usage(cv, "THIS, color, alpha=0");
+
+void
+Image::copy(source, destX, destY, ...)
+	Image* source
+	unsigned int destX
+	unsigned int destY
+	CODE:
+		if(items == 4)
+			THIS->copy(*source, destX, destY);
+		else if(items == 8)
+			THIS->copy(*source, destX, destY, IntRect(SvIV(ST(4)), SvIV(ST(5)), SvIV(ST(6)), SvIV(ST(6))));
+		else if(items == 9)
+			THIS->copy(*source, destX, destY, IntRect(SvIV(ST(4)), SvIV(ST(5)), SvIV(ST(6)), SvIV(ST(6))), SvTRUE(ST(7)));
+		else
+			croak_xs_usage(cv, "THIS, source, destX, destY, sourceRect(top, left, width, height), applyAlpha");
+
+void
+Image::setPixel(x, y, color)
+	unsigned int x
+	unsigned int y
+	Color* color
+	CODE:
+		THIS->setPixel(x,y,*color);
+
+Color*
+Image::getPixel(x,y)
+	unsigned int x
+	unsigned int y
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Color";
+	CODE:
+		RETVAL = new Color(THIS->getPixel(x,y));
+	OUTPUT:
+		RETVAL
+
+void*
+Image::getPixelsPtr()
+	CODE:
+		RETVAL = (void*) THIS->getPixelsPtr();
+	OUTPUT:
+		RETVAL
+
+void
+Image::flipHorizontally()
+
+void
+Image::flipVertically()
