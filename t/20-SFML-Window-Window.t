@@ -8,7 +8,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 5 + 5 + 1;
+use Test::More tests => 6 + 5 + 1;
 BEGIN { use_ok('SFML::Window'); }
 
 #########################
@@ -18,6 +18,7 @@ BEGIN { use_ok('SFML::Window'); }
 
 my $vm = SFML::Window::VideoMode->new(800, 600);
 isa_ok($vm, 'SFML::Window::VideoMode');
+new_ok 'SFML::Window::Window';
 my $window = new_ok 'SFML::Window::Window', [ $vm, "perl-sfml test window" ];
 
 can_ok(
@@ -41,8 +42,6 @@ TODO: {
 	is($c->getMinorVersion, $d->getMinorVersion, "getSettings MinorVersion value check");
 }
 
-$window->isOpen;
-
 =ignore
 $window->setPosition(10, 20);
 
@@ -59,26 +58,6 @@ is($x, 640, "getSize - x"); #Commented until further info available
 is($y, 480, "getSize - y");
 =cut
 
-$window->setVisible(1);
-
-$window->setVerticalSyncEnabled;
-$window->setVerticalSyncEnabled(0);
-
-$window->setMouseCursorVisible(0);
-$window->setMouseCursorVisible;
-
-$window->setKeyRepeatEnabled(0);
-$window->setKeyRepeatEnabled;
-
-$window->setFramerateLimit(100);
-$window->setFramerateLimit(0);
-
-$window->setJoystickThreshold(0.2);
-
-$window->setActive(0);
-$window->setActive;
-
-$window->display();
 #our %t = qw(Width 800 Height 600 BitsPerPixel 16);
 #is(eval '$window->get' . $_, $t{$_}, $_) for keys %t;
 
