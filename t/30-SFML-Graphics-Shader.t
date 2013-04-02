@@ -8,7 +8,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 3;
+use Test::More tests => 4;
 BEGIN { use_ok('SFML::Graphics') }
 
 #########################
@@ -16,12 +16,10 @@ BEGIN { use_ok('SFML::Graphics') }
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
-my $context = new_ok 'SFML::Graphics::RenderTexture';
+my $context = new_ok 'SFML::Graphics::Shader';
 
-can_ok(
-	$context, qw(create setSmooth isSmooth setRepeated isRepeated setActive display
-	  getSize getTexture clear setView getView getDefaultView getViewport mapPixelToCoords
-	  mapCoordsToPixel draw pushGLStates popGLStates resetGLStates));
+can_ok($context,                 qw(loadFromFile loadFromMemory setParameter));
+can_ok('SFML::Graphics::Shader', qw(bind isAvailable));
 
 =head1 COPYRIGHT
 

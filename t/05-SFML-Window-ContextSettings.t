@@ -16,7 +16,7 @@ BEGIN { use_ok('SFML::Window') }
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
-my $context = new_ok 'SFML::Window::ContextSettings', [depthBits => 20, stencilBits => 10, antialiasingLevel => 5, majorVersion => 50, minorVersion => 100];
+my $context = new_ok 'SFML::Window::ContextSettings', [ depthBits => 20, stencilBits => 10, antialiasingLevel => 5, majorVersion => 50, minorVersion => 100 ];
 
 can_ok($context, qw(getDepthBits getStencilBits getAntialiasingLevel getMajorVersion getMinorVersion));
 can_ok($context, qw(setDepthBits setStencilBits setAntialiasingLevel setMajorVersion setMinorVersion));

@@ -554,7 +554,7 @@ Font::new(...)
 	CODE:
 		SV* pv = SvRV(ST(1));
 		if(items == 2){
-			if(sv_isobject(ST(1)) && SvTYPE(pv) == SVt_PVMG)
+			if(sv_isobject(ST(1)) && SvTYPE(pv) == SVt_PVMG && sv_isa(ST(1), "SFML::Graphics::Font"))
 				RETVAL = new Font(*((Font*)SvIV(pv)));
 			else {
 				warn( "SFML::Graphics::Font::new() -- Argument is not a blessed SV reference" );
@@ -690,7 +690,7 @@ Image::new(...)
 	CODE:
 		SV* pv = SvRV(ST(1));
 		if(items == 2){
-			if(sv_isobject(ST(1)) && SvTYPE(pv) == SVt_PVMG)
+			if(sv_isobject(ST(1)) && SvTYPE(pv) == SVt_PVMG && sv_isa(ST(1), "SFML::Graphics::Image"))
 				RETVAL = new Image(*((Image*)SvIV(pv)));
 			else {
 				warn( "SFML::Graphics::Image::new() -- Argument is not a blessed SV reference" );
@@ -711,7 +711,7 @@ Image::create(width, height, ...)
 	unsigned int width
 	unsigned int height
 	CODE:
-		if(items == 4 && sv_isobject(ST(3)) && SvTYPE(SvRV(ST(3))) == SVt_PVMG && sv_isa(SvRV(ST(3)), "SFML::Graphics::Color"))
+		if(items == 4 && sv_isobject(ST(3)) && SvTYPE(SvRV(ST(3))) == SVt_PVMG && sv_isa(ST(3), "SFML::Graphics::Color"))
 			THIS->create(width, height, *((Color*) SvIV(SvRV(ST(3)))));
 		else if(items == 4){
 			SV* pv = SvRV(ST(3));
@@ -818,7 +818,7 @@ RectangleShape::new(...)
 	CODE:
 		if(items == 3)
 			RETVAL = new RectangleShape(Vector2f(SvNV(ST(1)), SvNV(ST(2))));
-		else if(items == 2 && SvTYPE(SvRV(ST(1))) == SVt_PVMG)
+		else if(items == 2 && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(ST(1), "SFML::Graphics::RectangleShape"))
 			RETVAL = new RectangleShape(*((RectangleShape*)SvIV(SvRV(ST(1)))));
 		else
 			croak_xs_usage(cv, "THIS, ( copy | size(x,y) )");
@@ -1031,11 +1031,11 @@ RenderStates::new(...)
 				SV* s = SvRV(ST(1));
 				if(sv_isa(s, "SFML::Graphics::RenderStates"))
 					RETVAL = new RenderStates(*((RenderStates*)SvIV(s)));
-				else if(sv_isa(s, "SFML::Graphics::Transform"))
+				else if(sv_isa(ST(1), "SFML::Graphics::Transform"))
 					RETVAL = new RenderStates(*((Transform*)SvIV(s)));
-				else if(sv_isa(s, "SFML::Graphics::Texture"))
+				else if(sv_isa(ST(1), "SFML::Graphics::Texture"))
 					RETVAL = new RenderStates((Texture*)SvIV(s));
-				else if(sv_isa(s, "SFML::Graphics::Shader"))
+				else if(sv_isa(ST(1), "SFML::Graphics::Shader"))
 					RETVAL = new RenderStates((Shader*)SvIV(s));
 				else
 					error = true;
@@ -1046,9 +1046,9 @@ RenderStates::new(...)
 				error = (!(sv_isobject(ST(i)) && SvTYPE(SvRV(ST(i))) == SVt_PVMG)) | error;
 			}
 			if(!error &&
-				sv_isa(SvRV(ST(2)), "SFML::Graphics::Transform") &&
-				sv_isa(SvRV(ST(3)), "SFML::Graphics::Texture") &&
-				sv_isa(SvRV(ST(4)), "SFML::Graphics::Shader"))
+				sv_isa(ST(2), "SFML::Graphics::Transform") &&
+				sv_isa(ST(3), "SFML::Graphics::Texture") &&
+				sv_isa(ST(4), "SFML::Graphics::Shader"))
 				RETVAL = new RenderStates((BlendMode)SvIV(ST(4)),
 					*((Transform*)SvIV(SvRV(ST(4)))),
 					(Texture*)SvIV(SvRV(ST(4))),
@@ -1187,7 +1187,7 @@ RenderTexture::getTexture()
 void
 RenderTexture::clear(...)
 	CODE:
-		if(items == 2 && sv_isobject(ST(1)) && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(SvRV(ST(1)), "SFML::Graphics::Color"))
+		if(items == 2 && sv_isobject(ST(1)) && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(ST(1), "SFML::Graphics::Color"))
 			THIS->setActive(SvTRUE(ST(1)));
 		else if(items == 1)
 			THIS->setActive();
@@ -1235,7 +1235,7 @@ RenderTexture::mapPixelToCoords(x, y, ...)
 	int y
 	CODE:
 		Vector2f r;
-		if(items == 2 && sv_isobject(ST(1)) && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(SvRV(ST(1)), "SFML::Graphics::Color"))
+		if(items == 2 && sv_isobject(ST(1)) && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(ST(1), "SFML::Graphics::Color"))
 			r = THIS->mapPixelToCoords(Vector2i(x,y), *((View*)SvIV(SvRV(ST(1)))));
 		else if(items == 1)
 			r = THIS->mapPixelToCoords(Vector2i(x,y));
@@ -1251,7 +1251,7 @@ RenderTexture::mapCoordsToPixel(x, y, ...)
 	float y
 	CODE:
 		Vector2i r;
-		if(items == 2 && sv_isobject(ST(1)) && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(SvRV(ST(1)), "SFML::Graphics::Color"))
+		if(items == 2 && sv_isobject(ST(1)) && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(ST(1), "SFML::Graphics::Color"))
 			r = THIS->mapCoordsToPixel(Vector2f(x,y), *((View*)SvIV(SvRV(ST(1)))));
 		else if(items == 1)
 			r = THIS->mapCoordsToPixel(Vector2f(x,y));
@@ -1495,7 +1495,7 @@ RenderWindow::display()
 void
 RenderWindow::clear(...)
 	CODE:
-		if(items == 2 && sv_isobject(ST(1)) && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(SvRV(ST(1)), "SFML::Graphics::Color"))
+		if(items == 2 && sv_isobject(ST(1)) && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(ST(1), "SFML::Graphics::Color"))
 			THIS->setActive(SvTRUE(ST(1)));
 		else if(items == 1)
 			THIS->setActive();
@@ -1543,7 +1543,7 @@ RenderWindow::mapPixelToCoords(x, y, ...)
 	int y
 	CODE:
 		Vector2f r;
-		if(items == 2 && sv_isobject(ST(1)) && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(SvRV(ST(1)), "SFML::Graphics::Color"))
+		if(items == 2 && sv_isobject(ST(1)) && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(ST(1), "SFML::Graphics::Color"))
 			r = THIS->mapPixelToCoords(Vector2i(x,y), *((View*)SvIV(SvRV(ST(1)))));
 		else if(items == 1)
 			r = THIS->mapPixelToCoords(Vector2i(x,y));
@@ -1559,7 +1559,7 @@ RenderWindow::mapCoordsToPixel(x, y, ...)
 	float y
 	CODE:
 		Vector2i r;
-		if(items == 2 && sv_isobject(ST(1)) && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(SvRV(ST(1)), "SFML::Graphics::Color"))
+		if(items == 2 && sv_isobject(ST(1)) && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(ST(1), "SFML::Graphics::Color"))
 			r = THIS->mapCoordsToPixel(Vector2f(x,y), *((View*)SvIV(SvRV(ST(1)))));
 		else if(items == 1)
 			r = THIS->mapCoordsToPixel(Vector2f(x,y));
@@ -1575,7 +1575,7 @@ RenderWindow::draw(...)
 		if((items == 3 || items == 2) &&
 			sv_isobject(ST(1)) &&
 			SvTYPE(SvRV(ST(1))) == SVt_PVMG){ // First option
-			if(items == 3 && sv_isobject(ST(2)) && SvTYPE(SvRV(ST(2))) == SVt_PVMG && sv_isa(SvRV(ST(2)), "SFML::Graphics::RenderStates"))
+			if(items == 3 && sv_isobject(ST(2)) && SvTYPE(SvRV(ST(2))) == SVt_PVMG && sv_isa(ST(2), "SFML::Graphics::RenderStates"))
 				THIS->draw(*((Drawable*)SvIV(SvRV(ST(1)))), *((RenderStates*)SvIV(SvRV(ST(2)))));
 			else
 				THIS->draw(*((Drawable*)SvIV(SvRV(ST(1)))));
@@ -1586,7 +1586,7 @@ RenderWindow::draw(...)
 			for(int i=0; i < len; i++){
 				vdata[i] = *((Vertex*)SvIV(SvRV(av_pop(a))));
 			}
-			if(items == 4 && sv_isobject(ST(3)) && SvTYPE(SvRV(ST(3))) == SVt_PVMG && sv_isa(SvRV(ST(3)), "SFML::Graphics::RenderStates"))
+			if(items == 4 && sv_isobject(ST(3)) && SvTYPE(SvRV(ST(3))) == SVt_PVMG && sv_isa(ST(3), "SFML::Graphics::RenderStates"))
 				THIS->draw(vdata, len, (PrimitiveType) SvIV(ST(2)),*((RenderStates*)SvIV(SvRV(ST(3)))));
 			else
 				THIS->draw(vdata, len, (PrimitiveType) SvIV(ST(2)));
@@ -1606,3 +1606,60 @@ Image*
 RenderWindow::capture()
 	CODE:
 		RETVAL = new Image(THIS->capture());
+
+MODULE = SFML		PACKAGE = SFML::Graphics::Shader
+
+Shader*
+Shader::new()
+
+void
+Shader::DESTROY()
+
+bool
+Shader::loadFromFile(vfilename, sfilename)
+	string vfilename
+	string sfilename
+
+bool
+Shader::loadFromMemory(vstringy, sstringy)
+	string vstringy
+	string sstringy
+
+void
+Shader::setParameter(name, ...)
+	string name
+	CODE:
+		if(items == 3)
+			if(sv_isobject(ST(2)) && SvTYPE(SvRV(ST(2))) == SVt_PVMG){
+				if(sv_isa(ST(2), "SFML::Graphics::Texture"))
+					THIS->setParameter(name, *((Texture*)SvIV(SvRV(ST(2)))));
+				else if(sv_isa(ST(2), "SFML::Graphics::Transform"))
+					THIS->setParameter(name, *((Transform*)SvIV(SvRV(ST(2)))));
+				else if(sv_isa(ST(2), "SFML::Graphics::Color"))
+					THIS->setParameter(name, *((Color*)SvIV(SvRV(ST(2)))));
+				else
+					warn("Unknown object type!");
+			} else {
+				THIS->setParameter(name, SvNV(ST(2)));
+			}
+		else if(items == 4)
+			THIS->setParameter(name, SvNV(ST(2)), SvNV(ST(3)));
+		else if(items == 5)
+			THIS->setParameter(name, SvNV(ST(2)), SvNV(ST(3)), SvNV(ST(4)));
+		else if(items == 6)
+			THIS->setParameter(name, SvNV(ST(2)), SvNV(ST(3)), SvNV(ST(4)), SvNV(ST(5)));
+		else
+			croak_xs_usage(cv, "THIS, (texture | transform | color | x | x,y | x,y,z | x,y,z,w)");
+
+void
+bind(shader)
+	Shader* shader
+	CODE:
+		sf::Shader::bind(shader);
+
+bool
+isAvailable()
+	CODE:
+		RETVAL = sf::Shader::isAvailable();
+	OUTPUT:
+		RETVAL

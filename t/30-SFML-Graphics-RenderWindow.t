@@ -23,11 +23,12 @@ isa_ok($vm, 'SFML::Window::VideoMode');
 
 my $window = new_ok 'SFML::Graphics::RenderWindow', [ $vm, "perl-sfml test renderWindow" ];
 
-can_ok($window, qw(getSize capture create close isOpen getSettings pollEvent waitEvent getPosition
-	setPosition setSize setTitle setIcon setVisible setVerticalSyncEnabled setMouseCursorVisible
-	setKeyRepeatEnabled setFramerateLimit setJoystickThreshold setActive display clear setView
-	getView getDefaultView getViewport mapPixelToCoords mapCoordsToPixel draw pushGLStates
-	popGLStates resetGLStates));
+can_ok(
+	$window, qw(getSize capture create close isOpen getSettings pollEvent waitEvent getPosition
+	  setPosition setSize setTitle setIcon setVisible setVerticalSyncEnabled setMouseCursorVisible
+	  setKeyRepeatEnabled setFramerateLimit setJoystickThreshold setActive display clear setView
+	  getView getDefaultView getViewport mapPixelToCoords mapCoordsToPixel draw pushGLStates
+	  popGLStates resetGLStates));
 
 my $cs = new_ok 'SFML::Window::ContextSettings', [ 'depthBits' => 24, 'stencilBits' => 8, 'minorVersion' => 1 ];
 $window->create($vm, "perl-sfml test window", SFML::Window::Style::Default, $cs);
