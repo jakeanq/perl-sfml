@@ -13,3 +13,4 @@ Shader*			O_OBJECT
 BlendMode*		O_OBJECT
 RenderTexture*		O_OBJECT
 View*			O_OBJECT
+RenderWindow*		O_OBJECT

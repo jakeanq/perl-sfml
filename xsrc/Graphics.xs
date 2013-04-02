@@ -1300,3 +1300,309 @@ RenderTexture::setRepeated(repeated)
 
 bool
 RenderTexture::isRepeated()
+
+MODULE = SFML		PACKAGE = SFML::Graphics::RenderWindow
+
+RenderWindow*
+RenderWindow::new(...)
+	CODE:
+		RETVAL = 0;
+		if (items == 1){
+			RETVAL = new RenderWindow();
+		} else if (items > 1 && sv_isobject(ST(1)) && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(ST(1), "SFML::Window::VideoMode")){
+			char * title = SvPV_nolen(ST(2));
+			VideoMode* mode = (VideoMode*)SvIV(SvRV(ST(1)));
+			if (items == 4){
+				RETVAL = new RenderWindow(*mode, std::string(title), SvIV(ST(3)));
+			} else if(items == 5 &&
+				sv_isobject(ST(4)) &&
+				SvTYPE(SvRV(ST(4))) == SVt_PVMG &&
+				sv_isa(ST(4), "SFML::Window::ContextSettings")){
+				RETVAL = new RenderWindow(*mode, std::string(title), SvIV(ST(3)), *((ContextSettings*) SvIV(SvRV(ST(4)))));
+			} else if(items == 3){
+				RETVAL = new RenderWindow(*mode, std::string(title));
+			}
+		}
+		if(RETVAL == 0)
+			croak_xs_usage(cv, "THIS, mode, title, style=SFML::Window::Style::Default, contextSettings=default");
+	OUTPUT:
+		RETVAL
+
+void
+RenderWindow::DESTROY()
+
+void
+RenderWindow::create(mode, title, ...)
+	VideoMode* mode
+	char * title
+	CODE:
+		bool error = true;
+		if (items == 4){
+			error = false;
+			THIS->create(*mode, std::string(title), SvIV(ST(3)));
+		} else if(items == 5 &&
+			sv_isobject(ST(4)) &&
+			SvTYPE(SvRV(ST(4))) == SVt_PVMG &&
+			sv_isa(ST(4), "SFML::Window::ContextSettings")){
+			error = false;
+			THIS->create(*mode, std::string(title), SvIV(ST(3)), *((ContextSettings*) SvIV(SvRV(ST(4)))));
+		} else if(items == 3){
+			error = false;
+			THIS->create(*mode, std::string(title));
+		}
+		if(error)
+			croak_xs_usage(cv, "CLASS, mode, title, style=SFML::Window::Style::Default, contextSettings=default");
+
+void
+RenderWindow::close()
+
+bool
+RenderWindow::isOpen()
+
+ContextSettings*
+RenderWindow::getSettings()
+	PREINIT:
+		const char * CLASS = "SFML::Window::ContextSettings";
+	CODE:
+		RETVAL = new ContextSettings(THIS->getSettings());
+	OUTPUT:
+		RETVAL
+
+void
+RenderWindow::getPosition()
+	PREINIT:
+		Vector2i v;
+	PPCODE:
+		v = THIS->getPosition();
+		EXTEND(SP, 2);
+		PUSHs(sv_2mortal(newSViv(v.x)));
+		PUSHs(sv_2mortal(newSViv(v.y)));
+
+void
+RenderWindow::setPosition(x,y)
+	int x
+	int y
+	CODE:
+		THIS->setPosition(Vector2i(x,y));
+
+void
+RenderWindow::getSize()
+	PREINIT:
+	Vector2u v;
+	PPCODE:
+		v = THIS->getSize();
+		//fprintf(stderr, "Size to %u, %u\n", v.x, v.y); 
+		EXTEND(SP, 2);
+		PUSHs(sv_2mortal(newSVuv(v.x)));
+		PUSHs(sv_2mortal(newSVuv(v.y)));
+
+void
+RenderWindow::setSize(x,y)
+	unsigned int x
+	unsigned int y
+	CODE:
+		THIS->setSize(Vector2u(x,y));
+
+void
+RenderWindow::setTitle(title)
+	char * title
+	CODE:
+		THIS->setTitle(std::string(title));
+
+void
+RenderWindow::setVisible(...)
+	CODE:
+		if(items >= 1)
+			THIS->setVisible(SvTRUE(ST(1)));
+		else
+			THIS->setVisible(true);
+
+void
+RenderWindow::setVerticalSyncEnabled(...)
+	CODE:
+		if(items >= 1)
+			THIS->setVerticalSyncEnabled(SvTRUE(ST(1)));
+		else
+			THIS->setVerticalSyncEnabled(true);
+
+void
+RenderWindow::setMouseCursorVisible(...)
+	CODE:
+		if(items >= 1)
+			THIS->setMouseCursorVisible(SvTRUE(ST(1)));
+		else
+			THIS->setMouseCursorVisible(true);
+
+void
+RenderWindow::setKeyRepeatEnabled(...)
+	CODE:
+		if(items >= 1)
+			THIS->setKeyRepeatEnabled(SvTRUE(ST(1)));
+		else
+			THIS->setKeyRepeatEnabled(true);
+
+void
+RenderWindow::setFramerateLimit(limit)
+	unsigned int limit
+
+void
+RenderWindow::setJoystickThreshold(threshold)
+	float threshold
+
+void
+RenderWindow::setIcon(x,y,pixels)
+	unsigned int x
+	unsigned int y
+	void * pixels
+	CODE:
+		THIS->setIcon(x,y,(Uint8*)pixels);
+
+bool
+RenderWindow::pollEvent(event)
+	Event* event
+	PREINIT:
+		const char * CLASS = "SFML::Window::Event";
+	CODE:
+		RETVAL = THIS->pollEvent(*event);
+	OUTPUT:
+		RETVAL
+
+bool
+RenderWindow::waitEvent(event)
+	Event* event
+	PREINIT:
+		const char * CLASS = "SFML::Window::Event";
+	CODE:
+		RETVAL = THIS->waitEvent(*event);
+	OUTPUT:
+		RETVAL
+
+bool
+RenderWindow::setActive(...)
+	CODE:
+		if(items == 2)
+			RETVAL = THIS->setActive(SvTRUE(ST(1)));
+		else if(items == 1)
+			RETVAL = THIS->setActive();
+		else
+			croak_xs_usage(cv, "THIS, active=true");
+	OUTPUT:
+		RETVAL
+
+void
+RenderWindow::display()
+
+void
+RenderWindow::clear(...)
+	CODE:
+		if(items == 2 && sv_isobject(ST(1)) && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(SvRV(ST(1)), "SFML::Graphics::Color"))
+			THIS->setActive(SvTRUE(ST(1)));
+		else if(items == 1)
+			THIS->setActive();
+		else
+			croak_xs_usage(cv, "THIS, color=black");
+
+void
+RenderWindow::setView(view)
+	View* view
+	CODE:
+		THIS->setView(*view);
+
+View*
+RenderWindow::getView()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::View";
+	CODE:
+		RETVAL = (View*)(void*)&THIS->getView();
+	OUTPUT:
+		RETVAL
+
+View*
+RenderWindow::getDefaultView()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::View";
+	CODE:
+		RETVAL = (View*)(void*)&THIS->getDefaultView();
+	OUTPUT:
+		RETVAL
+
+void
+RenderWindow::getViewport(view)
+	View* view;
+	CODE:
+		EXTEND(SP,4);
+		IntRect r = THIS->getViewport(*view);
+		XPUSHs(sv_2mortal(newSViv(r.top)));
+		XPUSHs(sv_2mortal(newSViv(r.left)));
+		XPUSHs(sv_2mortal(newSViv(r.width)));
+		XPUSHs(sv_2mortal(newSViv(r.height)));
+
+void
+RenderWindow::mapPixelToCoords(x, y, ...)
+	int x
+	int y
+	CODE:
+		Vector2f r;
+		if(items == 2 && sv_isobject(ST(1)) && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(SvRV(ST(1)), "SFML::Graphics::Color"))
+			r = THIS->mapPixelToCoords(Vector2i(x,y), *((View*)SvIV(SvRV(ST(1)))));
+		else if(items == 1)
+			r = THIS->mapPixelToCoords(Vector2i(x,y));
+		else
+			croak_xs_usage(cv, "THIS, x, y, [view]");
+		EXTEND(SP,2);
+		XPUSHs(sv_2mortal(newSVnv(r.x)));
+		XPUSHs(sv_2mortal(newSVnv(r.y)));
+
+void
+RenderWindow::mapCoordsToPixel(x, y, ...)
+	float x
+	float y
+	CODE:
+		Vector2i r;
+		if(items == 2 && sv_isobject(ST(1)) && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(SvRV(ST(1)), "SFML::Graphics::Color"))
+			r = THIS->mapCoordsToPixel(Vector2f(x,y), *((View*)SvIV(SvRV(ST(1)))));
+		else if(items == 1)
+			r = THIS->mapCoordsToPixel(Vector2f(x,y));
+		else
+			croak_xs_usage(cv, "THIS, x, y, [view]");
+		EXTEND(SP,2);
+		XPUSHs(sv_2mortal(newSViv(r.x)));
+		XPUSHs(sv_2mortal(newSViv(r.y)));
+
+void
+RenderWindow::draw(...)
+	CODE:
+		if((items == 3 || items == 2) &&
+			sv_isobject(ST(1)) &&
+			SvTYPE(SvRV(ST(1))) == SVt_PVMG){ // First option
+			if(items == 3 && sv_isobject(ST(2)) && SvTYPE(SvRV(ST(2))) == SVt_PVMG && sv_isa(SvRV(ST(2)), "SFML::Graphics::RenderStates"))
+				THIS->draw(*((Drawable*)SvIV(SvRV(ST(1)))), *((RenderStates*)SvIV(SvRV(ST(2)))));
+			else
+				THIS->draw(*((Drawable*)SvIV(SvRV(ST(1)))));
+		} else if((items == 4 || items == 3) && SvTYPE(SvRV(ST(1))) == SVt_PVAV) { // Second option
+			AV* a = (AV*) SvRV(ST(1));
+			unsigned int len = av_len(a);
+			Vertex* vdata = (Vertex*) malloc(sizeof(Vertex)*len);
+			for(int i=0; i < len; i++){
+				vdata[i] = *((Vertex*)SvIV(SvRV(av_pop(a))));
+			}
+			if(items == 4 && sv_isobject(ST(3)) && SvTYPE(SvRV(ST(3))) == SVt_PVMG && sv_isa(SvRV(ST(3)), "SFML::Graphics::RenderStates"))
+				THIS->draw(vdata, len, (PrimitiveType) SvIV(ST(2)),*((RenderStates*)SvIV(SvRV(ST(3)))));
+			else
+				THIS->draw(vdata, len, (PrimitiveType) SvIV(ST(2)));
+		} else
+			croak_xs_usage(cv, "THIS, (drawable, renderStates=default | vertices, type, renderStates=default)");
+
+void
+RenderWindow::pushGLStates()
+
+void
+RenderWindow::popGLStates()
+
+void
+RenderWindow::resetGLStates()
+
+Image*
+RenderWindow::capture()
+	CODE:
+		RETVAL = new Image(THIS->capture());

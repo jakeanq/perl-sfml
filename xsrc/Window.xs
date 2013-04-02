@@ -372,20 +372,27 @@ ge(left, right, swap)
 MODULE = SFML		PACKAGE = SFML::Window::Window
 
 Window*
-Window::new(mode, title, ...)
-	VideoMode* mode
-	char * title
+Window::::new(...)
 	CODE:
-		if(items >= 5){
-			if(!sv_isa(ST(4), "SFML::Window::ContextSettings"))
-				croak("Usage: new SFML::Window::Window(mode, title, "
-				"style=SFML::Window::Style::Default, contextsettings=new contextsettings");
-			RETVAL = new Window(*mode, std::string(title), SvIV(ST(3)), *((ContextSettings*) SvIV(SvRV(ST(4)))));
-		} else if (items >= 4){
-			RETVAL = new Window(*mode, std::string(title), SvIV(ST(3)));
-		} else {
-			RETVAL = new Window(*mode, std::string(title));
+		RETVAL = 0;
+		if (items == 1){
+			RETVAL = new RenderWindow();
+		} else if (items > 1 && sv_isobject(ST(1)) && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(ST(1), "SFML::Window::VideoMode")){
+			char * title = SvPV_nolen(ST(2));
+			VideoMode* mode = (VideoMode*)SvIV(SvRV(ST(1)));
+			if (items == 4){
+				RETVAL = new Window(*mode, std::string(title), SvIV(ST(3)));
+			} else if(items == 5 &&
+				sv_isobject(ST(4)) &&
+				SvTYPE(SvRV(ST(4))) == SVt_PVMG &&
+				sv_isa(ST(4), "SFML::Window::ContextSettings")){
+				RETVAL = new Window(*mode, std::string(title), SvIV(ST(3)), *((ContextSettings*) SvIV(SvRV(ST(4)))));
+			} else if(items == 3){
+				RETVAL = new Window(*mode, std::string(title));
+			}
 		}
+		if(RETVAL == 0)
+			croak_xs_usage(cv, "THIS, mode, title, style=SFML::Window::Style::Default, contextSettings=default");
 	OUTPUT:
 		RETVAL
 
@@ -397,17 +404,22 @@ Window::create(mode, title, ...)
 	VideoMode* mode
 	char * title
 	CODE:
-		//STACK_DUMP
-		if(items >= 5){
-			if(!sv_isa(ST(4), "SFML::Window::ContextSettings"))
-				croak("Usage: new SFML::Window::Window(mode, title, "
-				"style=SFML::Window::Style::Default, contextsettings=new contextsettings");
-			THIS->create(*mode, std::string(title), SvIV(ST(3)), *((ContextSettings*) SvIV(SvRV(ST(4)))));
-		} else if (items >= 4){
+		bool error = true;
+		if (items == 4){
+			error = false;
 			THIS->create(*mode, std::string(title), SvIV(ST(3)));
-		} else {
-			new Window(*mode, std::string(title));
+		} else if(items == 5 &&
+			sv_isobject(ST(4)) &&
+			SvTYPE(SvRV(ST(4))) == SVt_PVMG &&
+			sv_isa(ST(4), "SFML::Window::ContextSettings")){
+			error = false;
+			THIS->create(*mode, std::string(title), SvIV(ST(3)), *((ContextSettings*) SvIV(SvRV(ST(4)))));
+		} else if(items == 3){
+			error = false;
+			THIS->create(*mode, std::string(title));
 		}
+		if(error)
+			croak_xs_usage(cv, "CLASS, mode, title, style=SFML::Window::Style::Default, contextSettings=default");
 
 void
 Window::close()
@@ -427,7 +439,7 @@ Window::getSettings()
 void
 Window::getPosition()
 	PREINIT:
-	Vector2i v;
+		Vector2i v;
 	PPCODE:
 		v = THIS->getPosition();
 		EXTEND(SP, 2);
@@ -447,7 +459,7 @@ Window::getSize()
 	Vector2u v;
 	PPCODE:
 		v = THIS->getSize();
-		fprintf(stderr, "Size to %u, %u\n", v.x, v.y); 
+		//fprintf(stderr, "Size to %u, %u\n", v.x, v.y); 
 		EXTEND(SP, 2);
 		PUSHs(sv_2mortal(newSVuv(v.x)));
 		PUSHs(sv_2mortal(newSVuv(v.y)));
