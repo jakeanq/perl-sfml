@@ -34,44 +34,44 @@ isa_ok($context2, "SFML::Window::VideoMode");
 	my $context3 = new SFML::Window::VideoMode(800, 600, 16);
 	my $context4 = new SFML::Window::VideoMode(800, 600, 32);
 	subtest 'stringify' => sub {
-		is("$context", '800x600:16');
+		is("$context",  '800x600:16');
 		is("$context2", '1920x1080:32');
 		is("$context3", '800x600:16');
 		is("$context4", '800x600:32');
 	};
 	subtest 'array deref' => sub {
-		is_deeply([@{$context}],[800,600,16]);
-		is_deeply([@{$context2}],[1920,1080,32]);
-		is_deeply([@{$context4}],[800,600,32]);
+		is_deeply([ @{$context} ],  [ 800,  600,  16 ]);
+		is_deeply([ @{$context2} ], [ 1920, 1080, 32 ]);
+		is_deeply([ @{$context4} ], [ 800,  600,  32 ]);
 	};
 	subtest 'hash deref' => sub {
-		is_deeply({%{$context}},{width => 800, height => 600, depth => 16});
-		is_deeply({%{$context2}},{width => 1920, height => 1080, depth => 32});
-		is_deeply({%{$context4}},{width => 800, height => 600, depth => 32});
+		is_deeply({ %{$context} },  { width => 800,  height => 600,  depth => 16 });
+		is_deeply({ %{$context2} }, { width => 1920, height => 1080, depth => 32 });
+		is_deeply({ %{$context4} }, { width => 800,  height => 600,  depth => 32 });
 	};
-	ok(not ($context != $context3), '!= litmus') or diag("Operator overloading is probably broken -- != is probably comparing pointers or references.\n");
+	ok(not($context != $context3), '!= litmus') or diag("Operator overloading is probably broken -- != is probably comparing pointers or references.\n");
 	subtest '==' => sub {
-		optest($context,  "==", $context3);
+		optest($context, "==", $context3);
 		optest($_, "==", $_) for ($context, $context2, $context3, $context4);
 		noptest($context, "==", $context2);
 		noptest($context, "==", $context4);
 	};
 	subtest '<' => sub {
 		noptest($context, "<", $context);
-		optest($context,  "<",  $context2);
+		optest($context, "<", $context2);
 		noptest($context, "<", $context3);
-		optest($context,  "<",  $context4);
+		optest($context, "<", $context4);
 	};
 	subtest '>' => sub {
 		noptest($context, ">", $context);
-		optest($context2, ">",  $context);
-		noptest($context3,">", $context);
-		optest($context4, ">",  $context);
+		optest($context2, ">", $context);
+		noptest($context3, ">", $context);
+		optest($context4, ">", $context);
 	};
 	subtest '<=' => sub {
-		optest($context,  "<=", $context2);
-		optest($context,  "<=", $context3);
-		optest($context,  "<=", $context4);
+		optest($context, "<=", $context2);
+		optest($context, "<=", $context3);
+		optest($context, "<=", $context4);
 		noptest($context, "<=", $context);
 	};
 	subtest '>=' => sub {
@@ -81,18 +81,18 @@ isa_ok($context2, "SFML::Window::VideoMode");
 		noptest($context, ">=", $context);
 	};
 	subtest '!=' => sub {
-		optest($context,  "!=", $context2);
-		optest($context,  "!=", $context4);
-		noptest($_, "!=", $_) for ($context,$context2,$context3,$context4);
+		optest($context, "!=", $context2);
+		optest($context, "!=", $context4);
+		noptest($_, "!=", $_) for ($context, $context2, $context3, $context4);
 	};
 };
 
 sub optest {
-	cmp_ok($_[0],$_[1],$_[2],sprintf "%s %s %s", @_);
+	cmp_ok($_[0], $_[1], $_[2], sprintf "%s %s %s", @_);
 }
 
 sub noptest {
-	ok(not (eval($_[0].$_[1].$_[2])),sprintf("not %s %s %s", @_));
+	ok(not(eval($_[0] . $_[1] . $_[2])), sprintf("not %s %s %s", @_));
 }
 
 our %t = qw(Width 800 Height 600 BitsPerPixel 16);

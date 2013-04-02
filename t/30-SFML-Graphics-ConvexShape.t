@@ -18,10 +18,11 @@ BEGIN { use_ok('SFML::Graphics') }
 
 my $context = new_ok 'SFML::Graphics::ConvexShape', [100];
 
-can_ok($context, qw(setPoint setPointCount setTexture setTextureRect setFillColor setOutlineColor setOutlineThickness
-getPoint getPointCount getTextureRect getFillColor getOutlineColor getOutlineThickness
-getLocalBounds getGlobalBounds setPosition getPosition setOrigin getOrigin setRotation getRotation
-getScale setScale move rotate getTransform getInverseTransform));
+can_ok(
+	$context, qw(setPoint setPointCount setTexture setTextureRect setFillColor setOutlineColor setOutlineThickness
+	  getPoint getPointCount getTextureRect getFillColor getOutlineColor getOutlineThickness
+	  getLocalBounds getGlobalBounds setPosition getPosition setOrigin getOrigin setRotation getRotation
+	  getScale setScale move rotate getTransform getInverseTransform));
 
 =head1 COPYRIGHT
 

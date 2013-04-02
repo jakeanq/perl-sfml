@@ -810,3 +810,493 @@ Image::flipHorizontally()
 
 void
 Image::flipVertically()
+
+MODULE = SFML		PACKAGE = SFML::Graphics::RectangleShape
+
+RectangleShape*
+RectangleShape::new(...)
+	CODE:
+		if(items == 3)
+			RETVAL = new RectangleShape(Vector2f(SvNV(ST(1)), SvNV(ST(2))));
+		else if(items == 2 && SvTYPE(SvRV(ST(1))) == SVt_PVMG)
+			RETVAL = new RectangleShape(*((RectangleShape*)SvIV(SvRV(ST(1)))));
+		else
+			croak_xs_usage(cv, "THIS, ( copy | size(x,y) )");
+	OUTPUT:
+		RETVAL
+
+void
+RectangleShape::DESTROY()
+
+unsigned int
+RectangleShape::getPointCount()
+
+void
+RectangleShape::getPoint(index)
+	unsigned int index
+	CODE:
+		Vector2f v = THIS->getPoint(index);
+		EXTEND(SP,1);
+		XPUSHs(sv_2mortal(newSVnv(v.x)));
+		XPUSHs(sv_2mortal(newSVnv(v.y)));
+
+void
+RectangleShape::getSize()
+	CODE:
+		Vector2f v = THIS->getSize();
+		EXTEND(SP,1);
+		XPUSHs(sv_2mortal(newSVnv(v.x)));
+		XPUSHs(sv_2mortal(newSVnv(v.y)));
+
+void
+RectangleShape::setSize(x,y)
+	float x
+	float y
+	CODE:
+		THIS->setSize(Vector2f(x,y));
+
+void
+RectangleShape::setTexture(texture, ...)
+	Texture* texture
+	CODE:
+		if(items >1)
+			THIS->setTexture(texture, SvTRUE(ST(2)));
+		else
+			THIS->setTexture(texture);
+
+void
+RectangleShape::setTextureRect(left, top, width, height)
+	int left
+	int top
+	int width
+	int height
+	CODE:
+		THIS->setTextureRect(IntRect(left,top,width,height));
+
+void
+RectangleShape::setFillColor(color)
+	Color* color
+	CODE:
+		THIS->setFillColor(*color);
+
+void
+RectangleShape::setOutlineColor(color)
+	Color* color
+	CODE:
+		THIS->setOutlineColor(*color);
+
+void
+RectangleShape::setOutlineThickness(thickness)
+	float thickness
+
+void
+RectangleShape::getTextureRect()
+	CODE:
+		EXTEND(SP,4);
+		IntRect r = THIS->getTextureRect();
+		XPUSHs(sv_2mortal(newSViv(r.top)));
+		XPUSHs(sv_2mortal(newSViv(r.left)));
+		XPUSHs(sv_2mortal(newSViv(r.width)));
+		XPUSHs(sv_2mortal(newSViv(r.height)));
+
+Color*
+RectangleShape::getFillColor()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Color";
+	CODE:
+		RETVAL = new Color(THIS->getFillColor());
+	OUTPUT:
+		RETVAL
+
+Color*
+RectangleShape::getOutlineColor()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Color";
+	CODE:
+		RETVAL = new Color(THIS->getOutlineColor());
+	OUTPUT:
+		RETVAL
+
+float
+RectangleShape::getOutlineThickness()
+
+void
+RectangleShape::getLocalBounds()
+	CODE:
+		EXTEND(SP,4);
+		FloatRect r = THIS->getLocalBounds();
+		XPUSHs(sv_2mortal(newSVnv(r.top)));
+		XPUSHs(sv_2mortal(newSVnv(r.left)));
+		XPUSHs(sv_2mortal(newSVnv(r.width)));
+		XPUSHs(sv_2mortal(newSVnv(r.height)));
+
+void
+RectangleShape::getGlobalBounds()
+	CODE:
+		EXTEND(SP,4);
+		FloatRect r = THIS->getGlobalBounds();
+		XPUSHs(sv_2mortal(newSVnv(r.top)));
+		XPUSHs(sv_2mortal(newSVnv(r.left)));
+		XPUSHs(sv_2mortal(newSVnv(r.width)));
+		XPUSHs(sv_2mortal(newSVnv(r.height)));
+
+void
+RectangleShape::setPosition(x,y)
+	float x
+	float y
+
+void
+RectangleShape::setRotation(angle)
+	float angle
+
+void
+RectangleShape::setScale(factorX, factorY)
+	float factorX
+	float factorY
+
+void
+RectangleShape::setOrigin(x,y)
+	float x
+	float y
+
+void
+RectangleShape::getPosition()
+	CODE:
+		EXTEND(SP,2);
+		Vector2f r = THIS->getPosition();
+		XPUSHs(sv_2mortal(newSVnv(r.x)));
+		XPUSHs(sv_2mortal(newSVnv(r.y)));
+
+float
+RectangleShape::getRotation()
+
+void
+RectangleShape::getScale()
+	CODE:
+		EXTEND(SP,2);
+		Vector2f r = THIS->getScale();
+		XPUSHs(sv_2mortal(newSVnv(r.x)));
+		XPUSHs(sv_2mortal(newSVnv(r.y)));
+
+void
+RectangleShape::getOrigin()
+	CODE:
+		EXTEND(SP,2);
+		Vector2f r = THIS->getOrigin();
+		XPUSHs(sv_2mortal(newSVnv(r.x)));
+		XPUSHs(sv_2mortal(newSVnv(r.y)));
+
+void
+RectangleShape::move(offsetX, offsetY)
+	float offsetX
+	float offsetY
+
+void
+RectangleShape::rotate(angle)
+	float angle
+
+void
+RectangleShape::scale(factorX, factorY)
+	float factorX
+	float factorY
+
+Transform*
+RectangleShape::getTransform()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Transform";
+	CODE:
+		RETVAL = new Transform(THIS->getTransform());
+	OUTPUT:
+		RETVAL
+
+Transform*
+RectangleShape::getInverseTransform()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Transform";
+	CODE:
+		RETVAL = new Transform(THIS->getInverseTransform());
+	OUTPUT:
+		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Graphics::RenderStates
+
+RenderStates*
+RenderStates::new(...)
+	CODE:
+		bool error = false;
+		if(items == 1)
+			RETVAL = new RenderStates();
+		else if(items == 2 ){
+			if(sv_isobject(ST(1)) && SvTYPE(SvRV(ST(1))) == SVt_PVMG){
+				SV* s = SvRV(ST(1));
+				if(sv_isa(s, "SFML::Graphics::RenderStates"))
+					RETVAL = new RenderStates(*((RenderStates*)SvIV(s)));
+				else if(sv_isa(s, "SFML::Graphics::Transform"))
+					RETVAL = new RenderStates(*((Transform*)SvIV(s)));
+				else if(sv_isa(s, "SFML::Graphics::Texture"))
+					RETVAL = new RenderStates((Texture*)SvIV(s));
+				else if(sv_isa(s, "SFML::Graphics::Shader"))
+					RETVAL = new RenderStates((Shader*)SvIV(s));
+				else
+					error = true;
+			} else
+				RETVAL = new RenderStates((BlendMode)SvIV(ST(1)));
+		} else if(items == 5) {
+			for(int i = 2; i < 5; i++){
+				error = (!(sv_isobject(ST(i)) && SvTYPE(SvRV(ST(i))) == SVt_PVMG)) | error;
+			}
+			if(!error &&
+				sv_isa(SvRV(ST(2)), "SFML::Graphics::Transform") &&
+				sv_isa(SvRV(ST(3)), "SFML::Graphics::Texture") &&
+				sv_isa(SvRV(ST(4)), "SFML::Graphics::Shader"))
+				RETVAL = new RenderStates((BlendMode)SvIV(ST(4)),
+					*((Transform*)SvIV(SvRV(ST(4)))),
+					(Texture*)SvIV(SvRV(ST(4))),
+					(Shader*)SvIV(SvRV(ST(4))));
+		}
+		if(error){
+			croak_xs_usage(cv, "THIS, (theBlendMode | theTransform | theTexture | "
+				"theShader | theBlendMode, theTransform, theTexture, theShader");
+			XSRETURN_UNDEF;
+		}
+	OUTPUT:
+		RETVAL
+
+void
+RenderStates::DESTROY();
+
+int
+RenderStates::getBlendMode()
+	CODE:
+		RETVAL = THIS->blendMode;
+	OUTPUT:
+		RETVAL
+
+Transform*
+RenderStates::getTransform()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Transform";
+	CODE:
+		RETVAL = &THIS->transform;
+	OUTPUT:
+		RETVAL
+
+Texture*
+RenderStates::getTexture()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Texture";
+	CODE:
+		RETVAL = (Texture *) (void *) THIS->texture;
+	OUTPUT:
+		RETVAL
+
+Shader*
+RenderStates::getShader()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Shader";
+	CODE:
+		RETVAL = (Shader *) (void *) THIS->shader;
+	OUTPUT:
+		RETVAL
+
+void
+RenderStates::setBlendMode(blendMode)
+	int blendMode
+	CODE:
+		THIS->blendMode = (BlendMode)blendMode;
+
+void
+RenderStates::setTransform(transform)
+	Transform* transform
+	CODE:
+		THIS->transform = *transform;
+
+void
+RenderStates::setTexture(texture)
+	Texture* texture
+	CODE:
+		THIS->texture = texture;
+
+void
+RenderStates::setShader(shader)
+	Shader* shader
+	CODE:
+		THIS->shader = shader;
+
+MODULE = SFML		PACKAGE = SFML::Graphics::RenderTexture
+
+RenderTexture*
+RenderTexture::new()
+
+void
+RenderTexture::DESTROY()
+
+bool
+RenderTexture::create(width, height, ...)
+	unsigned int width
+	unsigned int height
+	CODE:
+		if(items == 3)
+			RETVAL = THIS->create(width, height);
+		else if(items == 4)
+			RETVAL = THIS->create(width, height, SvTRUE(ST(3)));
+		else
+			croak_xs_usage(cv, "THIS, width, height, depthBuffer=false");
+	OUTPUT:
+		RETVAL
+
+void
+RenderTexture::setSmooth(smooth)
+	bool smooth
+
+bool
+RenderTexture::isSmooth()
+
+bool
+RenderTexture::setActive(...)
+	CODE:
+		if(items == 2)
+			RETVAL = THIS->setActive(SvTRUE(ST(1)));
+		else if(items == 1)
+			RETVAL = THIS->setActive();
+		else
+			croak_xs_usage(cv, "THIS, active=true");
+	OUTPUT:
+		RETVAL
+
+void
+RenderTexture::display()
+
+void
+RenderTexture::getSize()
+	CODE:
+		EXTEND(SP,2);
+		Vector2u r = THIS->getSize();
+		XPUSHs(sv_2mortal(newSVuv(r.x)));
+		XPUSHs(sv_2mortal(newSVuv(r.y)));
+
+Texture*
+RenderTexture::getTexture()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Texture";
+	CODE:
+		RETVAL = (Texture*)(void*)&THIS->getTexture();
+	OUTPUT:
+		RETVAL
+
+void
+RenderTexture::clear(...)
+	CODE:
+		if(items == 2 && sv_isobject(ST(1)) && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(SvRV(ST(1)), "SFML::Graphics::Color"))
+			THIS->setActive(SvTRUE(ST(1)));
+		else if(items == 1)
+			THIS->setActive();
+		else
+			croak_xs_usage(cv, "THIS, color=black");
+
+void
+RenderTexture::setView(view)
+	View* view
+	CODE:
+		THIS->setView(*view);
+
+View*
+RenderTexture::getView()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::View";
+	CODE:
+		RETVAL = (View*)(void*)&THIS->getView();
+	OUTPUT:
+		RETVAL
+
+View*
+RenderTexture::getDefaultView()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::View";
+	CODE:
+		RETVAL = (View*)(void*)&THIS->getDefaultView();
+	OUTPUT:
+		RETVAL
+
+void
+RenderTexture::getViewport(view)
+	View* view;
+	CODE:
+		EXTEND(SP,4);
+		IntRect r = THIS->getViewport(*view);
+		XPUSHs(sv_2mortal(newSViv(r.top)));
+		XPUSHs(sv_2mortal(newSViv(r.left)));
+		XPUSHs(sv_2mortal(newSViv(r.width)));
+		XPUSHs(sv_2mortal(newSViv(r.height)));
+
+void
+RenderTexture::mapPixelToCoords(x, y, ...)
+	int x
+	int y
+	CODE:
+		Vector2f r;
+		if(items == 2 && sv_isobject(ST(1)) && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(SvRV(ST(1)), "SFML::Graphics::Color"))
+			r = THIS->mapPixelToCoords(Vector2i(x,y), *((View*)SvIV(SvRV(ST(1)))));
+		else if(items == 1)
+			r = THIS->mapPixelToCoords(Vector2i(x,y));
+		else
+			croak_xs_usage(cv, "THIS, x, y, [view]");
+		EXTEND(SP,2);
+		XPUSHs(sv_2mortal(newSVnv(r.x)));
+		XPUSHs(sv_2mortal(newSVnv(r.y)));
+
+void
+RenderTexture::mapCoordsToPixel(x, y, ...)
+	float x
+	float y
+	CODE:
+		Vector2i r;
+		if(items == 2 && sv_isobject(ST(1)) && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(SvRV(ST(1)), "SFML::Graphics::Color"))
+			r = THIS->mapCoordsToPixel(Vector2f(x,y), *((View*)SvIV(SvRV(ST(1)))));
+		else if(items == 1)
+			r = THIS->mapCoordsToPixel(Vector2f(x,y));
+		else
+			croak_xs_usage(cv, "THIS, x, y, [view]");
+		EXTEND(SP,2);
+		XPUSHs(sv_2mortal(newSViv(r.x)));
+		XPUSHs(sv_2mortal(newSViv(r.y)));
+
+void
+RenderTexture::draw(...)
+	CODE:
+		if((items == 3 || items == 2) &&
+			sv_isobject(ST(1)) &&
+			SvTYPE(SvRV(ST(1))) == SVt_PVMG){ // First option
+			if(items == 3 && sv_isobject(ST(2)) && SvTYPE(SvRV(ST(2))) == SVt_PVMG && sv_isa(SvRV(ST(2)), "SFML::Graphics::RenderStates"))
+				THIS->draw(*((Drawable*)SvIV(SvRV(ST(1)))), *((RenderStates*)SvIV(SvRV(ST(2)))));
+			else
+				THIS->draw(*((Drawable*)SvIV(SvRV(ST(1)))));
+		} else if((items == 4 || items == 3) && SvTYPE(SvRV(ST(1))) == SVt_PVAV) { // Second option
+			AV* a = (AV*) SvRV(ST(1));
+			unsigned int len = av_len(a);
+			Vertex* vdata = (Vertex*) malloc(sizeof(Vertex)*len);
+			for(int i=0; i < len; i++){
+				vdata[i] = *((Vertex*)SvIV(SvRV(av_pop(a))));
+			}
+			if(items == 4 && sv_isobject(ST(3)) && SvTYPE(SvRV(ST(3))) == SVt_PVMG && sv_isa(SvRV(ST(3)), "SFML::Graphics::RenderStates"))
+				THIS->draw(vdata, len, (PrimitiveType) SvIV(ST(2)),*((RenderStates*)SvIV(SvRV(ST(3)))));
+			else
+				THIS->draw(vdata, len, (PrimitiveType) SvIV(ST(2)));
+		} else
+			croak_xs_usage(cv, "THIS, (drawable, renderStates=default | vertices, type, renderStates=default)");
+
+void
+RenderTexture::pushGLStates()
+
+void
+RenderTexture::popGLStates()
+
+void
+RenderTexture::resetGLStates()
+
+void
+RenderTexture::setRepeated(repeated)
+	bool repeated
+
+bool
+RenderTexture::isRepeated()

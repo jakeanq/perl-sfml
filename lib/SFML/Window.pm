@@ -205,10 +205,10 @@ package SFML::Window::VideoMode;
 
 #XXX: Move @{} etc overloads into XS for speed, add lvalue support!
 use overload
-	'""' => sub {$_[0]->getWidth().'x'.$_[0]->getHeight().':'.$_[0]->getBitsPerPixel},
-	'@{}' => sub {[$_[0]->getWidth(), $_[0]->getHeight(), $_[0]->getBitsPerPixel]},
-	'%{}' => sub {{width => $_[0]->getWidth(), height => $_[0]->getHeight(), depth => $_[0]->getBitsPerPixel()}},
-	'<=>' => sub {};
+  '""'  => sub { $_[0]->getWidth() . 'x' . $_[0]->getHeight() . ':' . $_[0]->getBitsPerPixel },
+  '@{}' => sub { [ $_[0]->getWidth(), $_[0]->getHeight(), $_[0]->getBitsPerPixel ] },
+  '%{}' => sub { { width => $_[0]->getWidth(), height => $_[0]->getHeight(), depth => $_[0]->getBitsPerPixel() } },
+  '<=>' => sub { };
 
 =head1 COPYRIGHT
 

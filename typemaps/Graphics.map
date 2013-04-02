@@ -7,3 +7,9 @@ ConvexShape*		O_OBJECT
 Font*			O_OBJECT
 Glyph*			O_OBJECT
 Image*			O_OBJECT
+RectangleShape*		O_OBJECT
+RenderStates*		O_OBJECT
+Shader*			O_OBJECT
+BlendMode*		O_OBJECT
+RenderTexture*		O_OBJECT
+View*			O_OBJECT

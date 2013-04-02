@@ -18,8 +18,9 @@ BEGIN { use_ok('SFML::Graphics') }
 
 my $img = new_ok 'SFML::Graphics::Image';
 
-can_ok($img, qw(create loadFromFile loadFromMemory saveToFile getSize createMaskFromColor
-	copy setPixel getPixel getPixelsPtr flipHorizontally flipVertically));
+can_ok(
+	$img, qw(create loadFromFile loadFromMemory saveToFile getSize createMaskFromColor
+	  copy setPixel getPixel getPixelsPtr flipHorizontally flipVertically));
 
 #TODO: Add more tests here!
 

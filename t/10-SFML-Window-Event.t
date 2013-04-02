@@ -8,7 +8,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 2;
+use Test::More tests => 3;
 BEGIN { use_ok('SFML::Window'); }
 
 #########################
@@ -16,9 +16,9 @@ BEGIN { use_ok('SFML::Window'); }
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
-my $ev = new SFML::Window::Event;
+my $ev = new_ok 'SFML::Window::Event';
 
-isa_ok($ev, "SFML::Window::Event");
+can_ok($ev, qw(type size key mouseMove mouseButton mouseWheel joystickMove joystickButton joystickConnect));
 
 =head1 COPYRIGHT
 

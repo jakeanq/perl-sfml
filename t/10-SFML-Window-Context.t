@@ -16,9 +16,7 @@ BEGIN { use_ok('SFML::Window') }
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
-my $context = new SFML::Window::Context;
-
-isa_ok($context, "SFML::Window::Context");
+my $context = new_ok 'SFML::Window::Context';
 
 can_ok($context, qw(setActive));
 
