@@ -1676,7 +1676,7 @@ Sprite::new(...)
 				RETVAL = new Sprite(*((Texture*)SvIV(SvRV(ST(1)))), IntRect(SvIV(ST(2)), SvIV(ST(3)), SvIV(ST(4)), SvIV(ST(5))));
 			else
 				RETVAL = new Sprite(*((Texture*)SvIV(SvRV(ST(1)))));
-		else if(items == 2 && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(ST(1), "SFML::Graphics::RectangleShape"))
+		else if(items == 2 && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(ST(1), "SFML::Graphics::Sprite"))
 			RETVAL = new Sprite(*((Sprite*)SvIV(SvRV(ST(1)))));
 		else
 			croak_xs_usage(cv, "THIS, [ copy | texture, [top, left, width, height] ]");
@@ -1833,5 +1833,185 @@ Sprite::getTexture()
 		const char * CLASS = "SFML::Graphics::Texture";
 	CODE:
 		RETVAL = (Texture *) (void *) THIS->getTexture();
+	OUTPUT:
+		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Graphics::Text
+
+Text*
+Text::new(...)
+	CODE:
+		if(items == 1)
+			RETVAL = new Text();
+		else if((items == 3 || items == 4) && SvTYPE(SvRV(ST(2))) == SVt_PVMG && sv_isa(ST(2), "SFML::Graphics::Font"))
+			if(items == 4)
+				RETVAL = new Text(string(SvPV_nolen(ST(1))), *((Font*)SvIV(SvRV(ST(2)))), SvIV(ST(3)));
+			else
+				RETVAL = new Text(string(SvPV_nolen(ST(1))), *((Font*)SvIV(SvRV(ST(2)))));
+		else if(items == 2 && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(ST(1), "SFML::Graphics::Text"))
+			RETVAL = new Text(*((Text*)SvIV(SvRV(ST(1)))));
+		else
+			croak_xs_usage(cv, "THIS, [ copy | text, font, characterSize=30 ]");
+	OUTPUT:
+		RETVAL
+
+void
+Text::DESTROY()
+
+void
+Text::setFont(font)
+	Font* font
+	CODE:
+		THIS->setFont(*font);
+
+void
+Text::setString(text)
+	string text
+
+void
+Text::setStyle(style)
+	unsigned int style
+
+void
+Text::setColor(color)
+	Color* color
+	CODE:
+		THIS->setColor(*color);
+
+string
+Text::getString()
+
+Font*
+Text::getFont()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Font";
+	CODE:
+		RETVAL = (Font*)(void*) THIS->getFont();
+	OUTPUT:
+		RETVAL
+
+unsigned int
+Text::getCharacterSize()
+
+void
+Text::setCharacterSize(size)
+	unsigned int size
+
+unsigned int
+Text::getStyle()
+
+Color*
+Text::getColor()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Color";
+	CODE:
+		RETVAL = new Color(THIS->getColor());
+	OUTPUT:
+		RETVAL
+
+void
+Text::findCharacterPos(index)
+	unsigned int index
+	CODE:
+		EXTEND(SP,2);
+		Vector2f s = THIS->findCharacterPos(index);
+		XPUSHs(sv_2mortal(newSVnv(s.x)));
+		XPUSHs(sv_2mortal(newSVnv(s.y)));
+
+void
+Text::getLocalBounds()
+	CODE:
+		EXTEND(SP,4);
+		FloatRect r = THIS->getLocalBounds();
+		XPUSHs(sv_2mortal(newSVnv(r.top)));
+		XPUSHs(sv_2mortal(newSVnv(r.left)));
+		XPUSHs(sv_2mortal(newSVnv(r.width)));
+		XPUSHs(sv_2mortal(newSVnv(r.height)));
+
+void
+Text::getGlobalBounds()
+	CODE:
+		EXTEND(SP,4);
+		FloatRect r = THIS->getGlobalBounds();
+		XPUSHs(sv_2mortal(newSVnv(r.top)));
+		XPUSHs(sv_2mortal(newSVnv(r.left)));
+		XPUSHs(sv_2mortal(newSVnv(r.width)));
+		XPUSHs(sv_2mortal(newSVnv(r.height)));
+
+void
+Text::setPosition(x,y)
+	float x
+	float y
+
+void
+Text::setRotation(angle)
+	float angle
+
+void
+Text::setScale(factorX, factorY)
+	float factorX
+	float factorY
+
+void
+Text::setOrigin(x,y)
+	float x
+	float y
+
+void
+Text::getPosition()
+	CODE:
+		EXTEND(SP,2);
+		Vector2f r = THIS->getPosition();
+		XPUSHs(sv_2mortal(newSVnv(r.x)));
+		XPUSHs(sv_2mortal(newSVnv(r.y)));
+
+float
+Text::getRotation()
+
+void
+Text::getScale()
+	CODE:
+		EXTEND(SP,2);
+		Vector2f r = THIS->getScale();
+		XPUSHs(sv_2mortal(newSVnv(r.x)));
+		XPUSHs(sv_2mortal(newSVnv(r.y)));
+
+void
+Text::getOrigin()
+	CODE:
+		EXTEND(SP,2);
+		Vector2f r = THIS->getOrigin();
+		XPUSHs(sv_2mortal(newSVnv(r.x)));
+		XPUSHs(sv_2mortal(newSVnv(r.y)));
+
+void
+Text::move(offsetX, offsetY)
+	float offsetX
+	float offsetY
+
+void
+Text::rotate(angle)
+	float angle
+
+void
+Text::scale(factorX, factorY)
+	float factorX
+	float factorY
+
+Transform*
+Text::getTransform()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Transform";
+	CODE:
+		RETVAL = new Transform(THIS->getTransform());
+	OUTPUT:
+		RETVAL
+
+Transform*
+Text::getInverseTransform()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Transform";
+	CODE:
+		RETVAL = new Transform(THIS->getInverseTransform());
 	OUTPUT:
 		RETVAL

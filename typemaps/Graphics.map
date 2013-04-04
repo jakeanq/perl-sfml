@@ -16,3 +16,4 @@ View*			O_OBJECT
 RenderWindow*		O_OBJECT
 Shader*			O_OBJECT
 Sprite*			O_OBJECT
+Text*			O_OBJECT
