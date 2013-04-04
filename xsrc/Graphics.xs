@@ -1663,3 +1663,175 @@ isAvailable()
 		RETVAL = sf::Shader::isAvailable();
 	OUTPUT:
 		RETVAL
+
+MODULE = SFML			PACKAGE = SFML::Graphics::Sprite
+
+Sprite*
+Sprite::new(...)
+	CODE:
+		if(items == 1)
+			RETVAL = new Sprite();
+		else if((items == 2 || items == 6) && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(ST(1), "SFML::Graphics::Texture"))
+			if(items == 6)
+				RETVAL = new Sprite(*((Texture*)SvIV(SvRV(ST(1)))), IntRect(SvIV(ST(2)), SvIV(ST(3)), SvIV(ST(4)), SvIV(ST(5))));
+			else
+				RETVAL = new Sprite(*((Texture*)SvIV(SvRV(ST(1)))));
+		else if(items == 2 && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(ST(1), "SFML::Graphics::RectangleShape"))
+			RETVAL = new Sprite(*((Sprite*)SvIV(SvRV(ST(1)))));
+		else
+			croak_xs_usage(cv, "THIS, [ copy | texture, [top, left, width, height] ]");
+	OUTPUT:
+		RETVAL
+
+void
+Sprite::DESTROY()
+
+void
+Sprite::setTexture(texture, ...)
+	Texture* texture
+	CODE:
+		if(items >1)
+			THIS->setTexture(*texture, SvTRUE(ST(2)));
+		else
+			THIS->setTexture(*texture);
+
+void
+Sprite::setTextureRect(left, top, width, height)
+	int left
+	int top
+	int width
+	int height
+	CODE:
+		THIS->setTextureRect(IntRect(left,top,width,height));
+
+void
+Sprite::setColor(color)
+	Color* color
+	CODE:
+		THIS->setColor(*color);
+
+void
+Sprite::getTextureRect()
+	CODE:
+		EXTEND(SP,4);
+		IntRect r = THIS->getTextureRect();
+		XPUSHs(sv_2mortal(newSViv(r.top)));
+		XPUSHs(sv_2mortal(newSViv(r.left)));
+		XPUSHs(sv_2mortal(newSViv(r.width)));
+		XPUSHs(sv_2mortal(newSViv(r.height)));
+
+Color*
+Sprite::getColor()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Color";
+	CODE:
+		RETVAL = new Color(THIS->getColor());
+	OUTPUT:
+		RETVAL
+
+void
+Sprite::getLocalBounds()
+	CODE:
+		EXTEND(SP,4);
+		FloatRect r = THIS->getLocalBounds();
+		XPUSHs(sv_2mortal(newSVnv(r.top)));
+		XPUSHs(sv_2mortal(newSVnv(r.left)));
+		XPUSHs(sv_2mortal(newSVnv(r.width)));
+		XPUSHs(sv_2mortal(newSVnv(r.height)));
+
+void
+Sprite::getGlobalBounds()
+	CODE:
+		EXTEND(SP,4);
+		FloatRect r = THIS->getGlobalBounds();
+		XPUSHs(sv_2mortal(newSVnv(r.top)));
+		XPUSHs(sv_2mortal(newSVnv(r.left)));
+		XPUSHs(sv_2mortal(newSVnv(r.width)));
+		XPUSHs(sv_2mortal(newSVnv(r.height)));
+
+void
+Sprite::setPosition(x,y)
+	float x
+	float y
+
+void
+Sprite::setRotation(angle)
+	float angle
+
+void
+Sprite::setScale(factorX, factorY)
+	float factorX
+	float factorY
+
+void
+Sprite::setOrigin(x,y)
+	float x
+	float y
+
+void
+Sprite::getPosition()
+	CODE:
+		EXTEND(SP,2);
+		Vector2f r = THIS->getPosition();
+		XPUSHs(sv_2mortal(newSVnv(r.x)));
+		XPUSHs(sv_2mortal(newSVnv(r.y)));
+
+float
+Sprite::getRotation()
+
+void
+Sprite::getScale()
+	CODE:
+		EXTEND(SP,2);
+		Vector2f r = THIS->getScale();
+		XPUSHs(sv_2mortal(newSVnv(r.x)));
+		XPUSHs(sv_2mortal(newSVnv(r.y)));
+
+void
+Sprite::getOrigin()
+	CODE:
+		EXTEND(SP,2);
+		Vector2f r = THIS->getOrigin();
+		XPUSHs(sv_2mortal(newSVnv(r.x)));
+		XPUSHs(sv_2mortal(newSVnv(r.y)));
+
+void
+Sprite::move(offsetX, offsetY)
+	float offsetX
+	float offsetY
+
+void
+Sprite::rotate(angle)
+	float angle
+
+void
+Sprite::scale(factorX, factorY)
+	float factorX
+	float factorY
+
+Transform*
+Sprite::getTransform()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Transform";
+	CODE:
+		RETVAL = new Transform(THIS->getTransform());
+	OUTPUT:
+		RETVAL
+
+Transform*
+Sprite::getInverseTransform()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Transform";
+	CODE:
+		RETVAL = new Transform(THIS->getInverseTransform());
+	OUTPUT:
+		RETVAL
+
+Texture*
+Sprite::getTexture()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Texture";
+	CODE:
+		RETVAL = (Texture *) (void *) THIS->getTexture();
+	OUTPUT:
+		RETVAL

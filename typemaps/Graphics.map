@@ -15,3 +15,4 @@ RenderTexture*		O_OBJECT
 View*			O_OBJECT
 RenderWindow*		O_OBJECT
 Shader*			O_OBJECT
+Sprite*			O_OBJECT
