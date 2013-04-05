@@ -20,8 +20,8 @@ my $context = new_ok 'SFML::Graphics::Text';
 
 can_ok(
 	$context, qw(setString getString setFont getFont setCharacterSize getCharacterSize setStyle getStyle setColor getColor
-	findCharacterPos getLocalBounds getGlobalBounds setPosition getPosition setRotation
-	getRotation setScale getScale setOrigin getOrigin move rotate scale getTransform getInverseTransform));
+	  findCharacterPos getLocalBounds getGlobalBounds setPosition getPosition setRotation
+	  getRotation setScale getScale setOrigin getOrigin move rotate scale getTransform getInverseTransform));
 
 =head1 COPYRIGHT
 

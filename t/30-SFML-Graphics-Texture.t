@@ -18,8 +18,7 @@ BEGIN { use_ok('SFML::Graphics') }
 
 my $context = new_ok 'SFML::Graphics::Texture';
 
-can_ok(
-	$context, qw(create loadFromFile loadFromMemory loadFromImage getSize copyToImage update setSmooth isSmooth setRepeated isRepeated));
+can_ok($context, qw(create loadFromFile loadFromMemory loadFromImage getSize copyToImage update setSmooth isSmooth setRepeated isRepeated));
 
 =head1 COPYRIGHT
 

@@ -2139,3 +2139,27 @@ Texture::setRepeated(repeated)
 
 bool
 Texture::isRepeated()
+
+MODULE = SFML		PACKAGE = SFML::Graphics::Transform
+
+Transform*
+Transform::new(...)
+	CODE:
+		if(items == 1)
+			RETVAL = new Transform();
+		else if(items == 10)
+			RETVAL = new Transform(
+				SvNV(ST(1)), SvNV(ST(2)), SvNV(ST(3)),
+				SvNV(ST(4)), SvNV(ST(5)), SvNV(ST(6)),
+				SvNV(ST(7)), SvNV(ST(8)), SvNV(ST(9)));
+		else if(items == 2 && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(ST(1), "SFML::Graphics::Transform"))
+			RETVAL = new Transform(*((Transform*)SvIV(SvRV(ST(1)))));
+		else
+			croak_xs_usage(cv, "THIS, [ copy | a00, a01, a02, a10, a11, a12, a20, a21, a22 ]");
+	OUTPUT:
+		RETVAL
+
+void
+Transform::DESTROY()
+
+
