@@ -106,10 +106,10 @@ See the LICENCE file that should have been included with this
 
 =head1 COPYRIGHT
 
- ##########################################
- # Copyright 2013 Jake Bott, Gosha Tugai. #
- #=>------------------------------------<=#
- # All Rights Reserved. Part of perl-sfml #
- ##########################################
+ ############################################
+ # Copyright 2013 Jake Bott, Georgiy Tugai. #
+ #=>--------------------------------------<=#
+ #  All Rights Reserved. Part of perl-sfml  #
+ ############################################
 
 =cut

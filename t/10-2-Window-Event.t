@@ -22,10 +22,10 @@ can_ok($ev, qw(type size key mouseMove mouseButton mouseWheel joystickMove joyst
 
 =head1 COPYRIGHT
 
- ##########################################
- # Copyright 2013 Jake Bott, Gosha Tugai. #
- #=>------------------------------------<=#
- # All Rights Reserved. Part of perl-sfml #
- ##########################################
+ ############################################
+ # Copyright 2013 Jake Bott, Georgiy Tugai. #
+ #=>--------------------------------------<=#
+ #  All Rights Reserved. Part of perl-sfml  #
+ ############################################
 
 =cut

@@ -29,9 +29,9 @@ my $compiler = WriteMakefile(
 		'Alien::SFML' => 0.01,
 	},
 	LICENSE       => 'zlib',
-	VERSION_FROM  => 'lib/SFML.pm',                                                                          # finds $VERSION
-	ABSTRACT_FROM => 'lib/SFML.pm',                                                                          # retrieve abstract from module
-	AUTHOR        => 'Jake Bott <jakeanq@gmail.com>, Gosha Tugai <whatever.the.correct@email.address.is>',
+	VERSION_FROM  => 'lib/SFML.pm',                                                              # finds $VERSION
+	ABSTRACT_FROM => 'lib/SFML.pm',                                                              # retrieve abstract from module
+	AUTHOR        => 'Jake Bott <jakeanq@gmail.com>, Georgiy Tugai <georgiy.tugai@gmail.com>',
 	CC            => (
 		$clang ? "clang -x c++ -Wall -ggdb $suppressedwarnings"
 		: (
@@ -52,10 +52,10 @@ my $compiler = WriteMakefile(
 
 =head1 COPYRIGHT
 
- ##########################################
- # Copyright 2013 Jake Bott, Gosha Tugai. #
- #=>------------------------------------<=#
- # All Rights Reserved. Part of perl-sfml #
- ##########################################
+ ############################################
+ # Copyright 2013 Jake Bott, Georgiy Tugai. #
+ #=>--------------------------------------<=#
+ #  All Rights Reserved. Part of perl-sfml  #
+ ############################################
 
 =cut
