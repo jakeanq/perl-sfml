@@ -1,4 +1,5 @@
 tidy\.pl
+renamet\.pl
 \.git.+
 \.perltidyrc
 blib
