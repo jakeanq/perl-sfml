@@ -1604,6 +1604,8 @@ RenderWindow::resetGLStates()
 
 Image*
 RenderWindow::capture()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Image";
 	CODE:
 		RETVAL = new Image(THIS->capture());
 	OUTPUT:
@@ -2164,4 +2166,95 @@ Transform::new(...)
 void
 Transform::DESTROY()
 
+void
+Transform::getMatrix()
+	CODE:
+		const float * res = THIS->getMatrix();
+		EXTEND(SP,16);
+		for(int i=0; i<16;i++)
+			XPUSHs(sv_2mortal(newSVnv(res[i])));
 
+Transform*
+Transform::getInverse()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Transform";
+	CODE:
+		RETVAL = new Transform(THIS->getInverse());
+	OUTPUT:
+		RETVAL
+
+void
+Transform::transformPoint(x,y)
+	float x
+	float y
+	CODE:
+		EXTEND(SP,2);
+		Vector2f v = THIS->transformPoint(x,y);
+		XPUSHs(sv_2mortal(newSVnv(v.x)));
+		XPUSHs(sv_2mortal(newSVnv(v.y)));
+
+void
+Transform::transformRect(top, left, width, height)
+	float top
+	float left
+	float width
+	float height
+	CODE:
+		EXTEND(SP,4);
+		FloatRect v = THIS->transformRect(FloatRect(top,left,width,height));
+		XPUSHs(sv_2mortal(newSVnv(v.top)));
+		XPUSHs(sv_2mortal(newSVnv(v.left)));
+		XPUSHs(sv_2mortal(newSVnv(v.width)));
+		XPUSHs(sv_2mortal(newSVnv(v.height)));
+
+Transform*
+Transform::combine(transform)
+	Transform* transform
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Transform";
+	CODE:
+		RETVAL = &THIS->combine(*transform);
+	OUTPUT:
+		RETVAL
+
+Transform*
+Transform::translate(x, y)
+	float x
+	float y
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Transform";
+	CODE:
+		RETVAL = &THIS->translate(x,y);
+	OUTPUT:
+		RETVAL
+
+Transform*
+Transform::rotate(angle, ...)
+	float angle
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Transform";
+	CODE:
+		if(items == 2)
+			RETVAL = &THIS->rotate(angle);
+		else if(items == 4)
+			RETVAL = &THIS->rotate(angle, SvNV(ST(2)), SvNV(ST(3)));
+		else
+			croak_xs_usage(cv, "THIS, angle, [ centerX, centerY ]");
+	OUTPUT:
+		RETVAL
+
+Transform*
+Transform::scale(x, y, ...)
+	float x
+	float y
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Transform";
+	CODE:
+		if(items == 3)
+			RETVAL = &THIS->scale(x, y);
+		else if(items == 5)
+			RETVAL = &THIS->scale(x, y, SvNV(ST(3)), SvNV(ST(4)));
+		else
+			croak_xs_usage(cv, "THIS, x, y, [ centerX, centerY ]");
+	OUTPUT:
+		RETVAL
