@@ -2015,3 +2015,127 @@ Text::getInverseTransform()
 		RETVAL = new Transform(THIS->getInverseTransform());
 	OUTPUT:
 		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Graphics::Texture
+
+Texture*
+Texture::new(...)
+	CODE:
+		if(items == 1)
+			RETVAL = new Texture();
+		else if(items == 2 && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(ST(1), "SFML::Graphics::Texture"))
+			RETVAL = new Texture(*((Texture*)SvIV(SvRV(ST(1)))));
+		else
+			croak_xs_usage(cv, "THIS, [ copy ]");
+	OUTPUT:
+		RETVAL
+
+void
+Texture::DESTROY()
+
+bool
+Texture::create(width, height)
+	unsigned int width
+	unsigned int height
+
+bool
+Texture::loadFromFile(filename, ...)
+	string filename
+	CODE:
+		if(items == 6)
+			RETVAL = THIS->loadFromFile(filename, IntRect(SvIV(ST(2)), SvIV(ST(3)), SvIV(ST(4)), SvIV(ST(5))));
+		else if(items == 2)
+			RETVAL = THIS->loadFromFile(filename);
+		else
+			croak_xs_usage(cv, "THIS, filename, [ top, left, width, height ]");
+	OUTPUT:
+		RETVAL
+
+bool
+Texture::loadFromMemory(...)
+	CODE:
+		std::size_t len;
+		void * data = SvPV(ST(1),len);
+		if(items == 6)
+			RETVAL = THIS->loadFromMemory(data, len, IntRect(SvIV(ST(2)), SvIV(ST(3)), SvIV(ST(4)), SvIV(ST(5))));
+		else if(items == 2)
+			RETVAL = THIS->loadFromMemory(data, len);
+		else
+			croak_xs_usage(cv, "THIS, data, [ top, left, width, height ]");
+	OUTPUT:
+		RETVAL
+
+bool
+Texture::loadFromImage(image, ...)
+	Image* image
+	CODE:
+		if(items == 6)
+			RETVAL = THIS->loadFromImage(*image, IntRect(SvIV(ST(2)), SvIV(ST(3)), SvIV(ST(4)), SvIV(ST(5))));
+		else if(items == 2)
+			RETVAL = THIS->loadFromImage(*image);
+		else
+			croak_xs_usage(cv, "THIS, image, [ top, left, width, height ]");
+	OUTPUT:
+		RETVAL
+
+void
+Texture::getSize()
+	CODE:
+		EXTEND(SP,2);
+		Vector2u r = THIS->getSize();
+		XPUSHs(sv_2mortal(newSVuv(r.x)));
+		XPUSHs(sv_2mortal(newSVuv(r.y)));
+
+Image*
+Texture::copyToImage()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Image";
+	CODE:
+		RETVAL = new Image(THIS->copyToImage());
+	OUTPUT:
+		RETVAL
+
+void
+Texture::update(...)
+	CODE:
+		bool error = false;
+		if(items >= 2 && SvTYPE(SvRV(ST(1))) == SVt_PVMG){
+			if(sv_isa(ST(1), "SFML::Graphics::Image")){
+				if(items == 2)
+					THIS->update(*((Image*)SvIV(SvRV(ST(1)))));
+				else if(items == 4)
+					THIS->update(*((Image*)SvIV(SvRV(ST(1)))), SvUV(ST(2)), SvUV(ST(3)));
+				else
+					error = true;
+			} else if(sv_isa(ST(2), "SFML::Graphics::Window")){
+				if(items == 2)
+					THIS->update(*((Window*)SvIV(SvRV(ST(1)))));
+				else if(items == 4)
+					THIS->update(*((Window*)SvIV(SvRV(ST(1)))), SvUV(ST(2)), SvUV(ST(3)));
+				else
+					error = true;
+			} else {
+				if(items == 2)
+					THIS->update((Uint8*)SvPV_nolen(ST(1)));
+				else if(items == 6)
+					THIS->update((Uint8*)SvPV_nolen(ST(1)), SvUV(ST(2)), SvUV(ST(3)), SvUV(ST(4)), SvUV(ST(5)));
+				else
+					error = true;
+			}
+		}
+		if(error)
+			croak_xs_usage(cv, "THIS, ( image, [ x, y ] | window, [ x, y ] | pixels [ width, height, x, y ] )");
+
+bool
+Texture::isSmooth()
+
+void
+Texture::setSmooth(smooth)
+	bool smooth
+
+void
+Texture::setRepeated(repeated)
+	bool repeated
+
+bool
+Texture::isRepeated()
