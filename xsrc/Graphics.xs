@@ -1606,6 +1606,8 @@ Image*
 RenderWindow::capture()
 	CODE:
 		RETVAL = new Image(THIS->capture());
+	OUTPUT:
+		RETVAL
 
 MODULE = SFML		PACKAGE = SFML::Graphics::Shader
 
