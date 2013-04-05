@@ -20,7 +20,7 @@ my $context = new_ok 'SFML::Graphics::Sprite';
 
 can_ok(
 	$context, qw(setTexture setTextureRect setColor getTexture getTextureRect getColor getLocalBounds getGlobalBounds setPosition getPosition setRotation
-	getRotation setScale getScale setOrigin getOrigin move rotate scale getTransform getInverseTransform));
+	  getRotation setScale getScale setOrigin getOrigin move rotate scale getTransform getInverseTransform));
 
 =head1 COPYRIGHT
 

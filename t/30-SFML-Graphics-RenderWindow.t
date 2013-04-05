@@ -8,8 +8,9 @@
 use strict;
 use warnings;
 
-use Test::More tests => 13;
-BEGIN { use_ok('SFML::Graphics'); use_ok('SFML::Window') }
+use Test::More tests => 12;
+#Strange that this works.
+BEGIN { use_ok('SFML::Window'); }
 
 #########################
 
