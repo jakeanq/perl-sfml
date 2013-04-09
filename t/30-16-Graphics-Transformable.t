@@ -16,9 +16,10 @@ BEGIN { use_ok('SFML::Graphics') }
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
-my $context = new_ok 'SFML::Graphics::Transform';
+my $context = new_ok 'SFML::Graphics::Transformable';
 
-can_ok($context, qw(getMatrix getInverse transformPoint transformRect combine translate rotate scale));
+can_ok(
+	$context, qw(setPosition getPosition setScale getScale setOrigin getOrigin setRotation getRotation move scale rotate getTransform getInverseTransform));
 
 =head1 COPYRIGHT
 

@@ -2258,3 +2258,98 @@ Transform::scale(x, y, ...)
 			croak_xs_usage(cv, "THIS, x, y, [ centerX, centerY ]");
 	OUTPUT:
 		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Graphics::Transformable
+
+Transformable*
+Transformable::new(...)
+	CODE:
+		if(items == 1)
+			RETVAL = new Transformable();
+		else if(items == 2 && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(ST(1), "SFML::Graphics::Transformable"))
+			RETVAL = new Transformable(*((Transformable*)SvIV(SvRV(ST(1)))));
+		else
+			croak_xs_usage(cv, "THIS, [ copy ]");
+	OUTPUT:
+		RETVAL
+
+void
+Transformable::DESTROY()
+
+void
+Transformable::setPosition(x,y)
+	float x
+	float y
+
+void
+Transformable::setRotation(angle)
+	float angle
+
+void
+Transformable::setScale(factorX, factorY)
+	float factorX
+	float factorY
+
+void
+Transformable::setOrigin(x,y)
+	float x
+	float y
+
+void
+Transformable::getPosition()
+	CODE:
+		EXTEND(SP,2);
+		Vector2f r = THIS->getPosition();
+		XPUSHs(sv_2mortal(newSVnv(r.x)));
+		XPUSHs(sv_2mortal(newSVnv(r.y)));
+
+void
+Transformable::getScale()
+	CODE:
+		EXTEND(SP,2);
+		Vector2f r = THIS->getScale();
+		XPUSHs(sv_2mortal(newSVnv(r.x)));
+		XPUSHs(sv_2mortal(newSVnv(r.y)));
+
+void
+Transformable::getOrigin()
+	CODE:
+		EXTEND(SP,2);
+		Vector2f r = THIS->getOrigin();
+		XPUSHs(sv_2mortal(newSVnv(r.x)));
+		XPUSHs(sv_2mortal(newSVnv(r.y)));
+
+float
+Transformable::getRotation()
+
+void
+Transformable::move(offsetX, offsetY)
+	float offsetX
+	float offsetY
+
+void
+Transformable::rotate(angle)
+	float angle
+
+void
+Transformable::scale(factorX, factorY)
+	float factorX
+	float factorY
+
+Transform*
+Transformable::getTransform()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Transform";
+	CODE:
+		RETVAL = new Transform(THIS->getTransform());
+	OUTPUT:
+		RETVAL
+
+Transform*
+Transformable::getInverseTransform()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Transform";
+	CODE:
+		RETVAL = new Transform(THIS->getInverseTransform());
+	OUTPUT:
+		RETVAL
