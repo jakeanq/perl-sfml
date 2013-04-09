@@ -2353,3 +2353,147 @@ Transformable::getInverseTransform()
 		RETVAL = new Transform(THIS->getInverseTransform());
 	OUTPUT:
 		RETVAL
+
+MODULE = SFML		PACKAGE = SFML::Graphics::Vertex
+
+Vertex*
+Vertex::new(...)
+	CODE:
+		if(items == 1)
+			RETVAL = new Vertex();
+		else if(items == 2 && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(ST(1), "SFML::Graphics::Vertex"))
+			RETVAL = new Vertex(*((Vertex*)SvIV(SvRV(ST(1)))));
+		else if(items == 3)
+			RETVAL = new Vertex(Vector2f(SvNV(ST(1)), SvNV(ST(2))));
+		else if((items == 4 || items == 6) && SvTYPE(SvRV(ST(3))) == SVt_PVMG && sv_isa(ST(3), "SFML::Graphics::Color")) {
+			if(items == 4)
+				RETVAL = new Vertex(Vector2f(SvNV(ST(1)), SvNV(ST(2))), *((Color*)SvIV(SvRV(ST(3)))));
+			else
+				RETVAL = new Vertex(Vector2f(SvNV(ST(1)), SvNV(ST(2))), *((Color*)SvIV(SvRV(ST(3)))), Vector2f(SvNV(ST(4)), SvNV(ST(5))));
+		} else if (items == 5)
+			RETVAL = new Vertex(Vector2f(SvNV(ST(1)), SvNV(ST(2))), Vector2f(SvNV(ST(4)), SvNV(ST(5))));
+		else
+			croak_xs_usage(cv, "THIS, [ ( copy | thePosition [, ( theColor [ u, v ] | u, v ) ] ]");
+	OUTPUT:
+		RETVAL
+
+void
+Vertex::DESTROY()
+
+void
+Vertex::getPosition()
+	CODE:
+		EXTEND(SP,2);
+		XPUSHs(sv_2mortal(newSVnv(THIS->position.x)));
+		XPUSHs(sv_2mortal(newSVnv(THIS->position.y)));
+
+void
+Vertex::setPosition(x,y)
+	float x
+	float y
+	CODE:
+		THIS->position.x = x;
+		THIS->position.y = y;
+
+void
+Vertex::setColor(color)
+	Color* color
+	CODE:
+		THIS->color = *color;
+
+Color*
+Vertex::getColor()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Color";
+	CODE:
+		RETVAL = new Color(THIS->color);
+	OUTPUT:
+		RETVAL
+
+void
+Vertex::getTexCoords()
+	CODE:
+		EXTEND(SP,2);
+		XPUSHs(sv_2mortal(newSVnv(THIS->texCoords.x)));
+		XPUSHs(sv_2mortal(newSVnv(THIS->texCoords.y)));
+
+void
+Vertex::setTexCoords(x,y)
+	float x
+	float y
+	CODE:
+		THIS->texCoords.x = x;
+		THIS->texCoords.y = y;
+
+MODULE = SFML		PACKAGE = SFML::Graphics::VertexArray
+
+VertexArray*
+VertexArray::new(...)
+	CODE:
+		if(items == 1)
+			RETVAL = new VertexArray();
+		else if(items == 2 && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(ST(1), "SFML::Graphics::VertexArray"))
+			RETVAL = new VertexArray(*((VertexArray*)SvIV(SvRV(ST(1)))));
+		else if(items == 2)
+			RETVAL = new VertexArray((PrimitiveType)SvIV(ST(1)));
+		else if(items == 3)
+			RETVAL = new VertexArray((PrimitiveType)SvIV(ST(1)), SvUV(ST(2)));
+		else
+			croak_xs_usage(cv, "THIS, [ ( copy | type, vertexCount=0 ]");
+	OUTPUT:
+		RETVAL
+
+void
+VertexArray::DESTROY()
+
+unsigned int
+VertexArray::getVertexCount()
+
+Vertex*
+VertexArray::get(index)
+	unsigned int index
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Vertex";
+	CODE:
+		RETVAL = &((*THIS)[index]);
+	OUTPUT:
+		RETVAL
+
+void
+VertexArray::set(index, vertex)
+	unsigned int index
+	Vertex* vertex
+	CODE:
+		(*THIS)[index] = *vertex;
+
+void
+VertexArray::clear()
+
+void
+VertexArray::resize(vertexCount)
+	unsigned int vertexCount
+
+void
+VertexArray::append(vertex)
+	Vertex* vertex
+	CODE:
+		THIS->append(*vertex);
+
+void
+VertexArray::setPrimitiveType(type)
+	int type
+	CODE:
+		THIS->setPrimitiveType((PrimitiveType)type);
+
+int
+VertexArray::getPrimitiveType()
+
+void
+VertexArray::getBounds()
+	CODE:
+		EXTEND(SP,4);
+		FloatRect bounds = THIS->getBounds();
+		XPUSHs(sv_2mortal(newSViv(bounds.top)));
+		XPUSHs(sv_2mortal(newSViv(bounds.left)));
+		XPUSHs(sv_2mortal(newSViv(bounds.width)));
+		XPUSHs(sv_2mortal(newSViv(bounds.height)));

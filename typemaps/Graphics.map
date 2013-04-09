@@ -18,3 +18,5 @@ Shader*			O_OBJECT
 Sprite*			O_OBJECT
 Text*			O_OBJECT
 Transformable*		O_OBJECT
+Vertex*			O_OBJECT
+VertexArray*		O_OBJECT
