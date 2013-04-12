@@ -2497,3 +2497,112 @@ VertexArray::getBounds()
 		XPUSHs(sv_2mortal(newSViv(bounds.left)));
 		XPUSHs(sv_2mortal(newSViv(bounds.width)));
 		XPUSHs(sv_2mortal(newSViv(bounds.height)));
+
+MODULE = SFML		PACKAGE = SFML::Graphics::View
+
+View*
+View::new(...)
+	CODE:
+		if(items == 1)
+			RETVAL = new View();
+		else if(items == 2 && SvTYPE(SvRV(ST(1))) == SVt_PVMG && sv_isa(ST(1), "SFML::Graphics::View"))
+			RETVAL = new View(*((View*)SvIV(SvRV(ST(1)))));
+		else
+			croak_xs_usage(cv, "THIS, [ copy ]");
+	OUTPUT:
+		RETVAL
+
+void
+View::DESTROY()
+
+void
+View::setCenter(x, y)
+	float x
+	float y
+
+void
+View::setSize(width, height)
+	float width
+	float height
+
+void
+View::setRotation(angle)
+	float angle
+
+void
+View::setViewport(top, left, width, height)
+	float top
+	float left
+	float width
+	float height
+	CODE:
+		THIS->setViewport(FloatRect(top, left, width, height));
+
+void
+View::reset(top, left, width, height)
+	float top
+	float left
+	float width
+	float height
+	CODE:
+		THIS->setViewport(FloatRect(top, left, width, height));
+
+void
+View::getCenter()
+	CODE:
+		Vector2f v = THIS->getCenter();
+		EXTEND(SP,1);
+		XPUSHs(sv_2mortal(newSVnv(v.x)));
+		XPUSHs(sv_2mortal(newSVnv(v.y)));
+
+void
+View::getSize()
+	CODE:
+		Vector2f v = THIS->getSize();
+		EXTEND(SP,1);
+		XPUSHs(sv_2mortal(newSVnv(v.x)));
+		XPUSHs(sv_2mortal(newSVnv(v.y)));
+
+float
+View::getRotation()
+
+void
+View::getViewport()
+	CODE:
+		EXTEND(SP,4);
+		FloatRect r = THIS->getViewport();
+		XPUSHs(sv_2mortal(newSVnv(r.top)));
+		XPUSHs(sv_2mortal(newSVnv(r.left)));
+		XPUSHs(sv_2mortal(newSVnv(r.width)));
+		XPUSHs(sv_2mortal(newSVnv(r.height)));
+
+void
+View::move(offsetX, offsetY)
+	float offsetX
+	float offsetY
+
+void
+View::rotate(angle)
+	float angle
+
+void
+View::zoom(factor)
+	float factor
+
+Transform*
+View::getTransform()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Transform";
+	CODE:
+		RETVAL = new Transform(THIS->getTransform());
+	OUTPUT:
+		RETVAL
+
+Transform*
+View::getInverseTransform()
+	PREINIT:
+		const char * CLASS = "SFML::Graphics::Transform";
+	CODE:
+		RETVAL = new Transform(THIS->getInverseTransform());
+	OUTPUT:
+		RETVAL
