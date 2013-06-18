@@ -1,4 +1,4 @@
-perl-sfml v0.01 (SFML v2.0 RC)
+perl-sfml v0.0101 (SFML v2.0)
 ==============================
 
 This project aims to provide perl bindings to the SFML library.
@@ -48,7 +48,8 @@ TODO
 
 So far, only the Window and Graphics modules of SFML has been implemented.
 
-The Audio module is coming (hopefully) pretty soonish.
+The Audio module is coming (hopefully) (maybe) pretty soonish.  Feel free to
+pester me for it if you really want it.
 
 The System and Network modules have not and *will not* be implemented
 due to their functions being pretty similar to existing perl modules
@@ -62,7 +63,10 @@ of one of these modules, you will need to follow these few simple steps:
 
 RECENT CHANGES
 
-Everything!
+V0.01
+	Everything!
+V0.0101
+	Added in Alien::SFML to BUILD_REQUIRES so it actually works...
 
 BUGS AND FEATURE REQUESTS
 

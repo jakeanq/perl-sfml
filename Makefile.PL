@@ -24,9 +24,10 @@ my $compiler = WriteMakefile(
 	NAME           => 'SFML',
 	BUILD_REQUIRES => {
 		'ExtUtils::CBuilder' => 0,
+		'Alien::SFML' => 0.02,
 	},
 	PREREQ_PM => {
-		'Alien::SFML' => 0.01,
+		'Alien::SFML' => 0.02,
 	},
 	LICENSE       => 'zlib',
 	VERSION_FROM  => 'lib/SFML.pm',                                                              # finds $VERSION

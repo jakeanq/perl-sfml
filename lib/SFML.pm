@@ -26,7 +26,7 @@ our @EXPORT = qw(
 
 );
 
-our $VERSION = '0.01';    # Alpha!
+our $VERSION = '0.0101';    # Alpha!
 
 require XSLoader;
 XSLoader::load('SFML', $VERSION);
@@ -83,7 +83,7 @@ github.com/jakeanq/perl-sfml/
 =head1 AUTHOR
 
 Jake Bott, E<lt>jakeanq@gmail.comE<gt>
-Gosha Tugai E<lt>whatever.the.correct@email.address.isE<gt>
+Georgiy Tugai E<lt>georgiy.tugai@gmail.comE<gt>
 
 =head1 BUGS
 
@@ -98,7 +98,8 @@ https://github.com/jakeanq/perl-alien-sfml/
 
 http://www.sfml-dev.org/
 
-Note that I do not maintain SFML itself, only the SFML module and Alien::SFML
+Note that I do not maintain SFML itself, only the SFML module and Alien::SFML.
+For that, see the above website (the sfml-dev one, not the github one)
 
 =head1 LICENSE
 
