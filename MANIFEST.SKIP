@@ -10,3 +10,4 @@ blib
 MYMETA
 \bMakefile$
 \.bak
+\.tar.+

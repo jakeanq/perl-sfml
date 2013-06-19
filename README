@@ -67,6 +67,8 @@ V0.01
 	Everything!
 V0.0101
 	Added in Alien::SFML to BUILD_REQUIRES so it actually works...
+V0.0102
+	Fixed the bug that V0.0101 was actually meant to fix...
 
 BUGS AND FEATURE REQUESTS
 

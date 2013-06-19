@@ -26,7 +26,7 @@ our @EXPORT = qw(
 
 );
 
-our $VERSION = '0.0101';    # Alpha!
+our $VERSION = '0.0102';    # Alpha!
 
 require XSLoader;
 XSLoader::load('SFML', $VERSION);

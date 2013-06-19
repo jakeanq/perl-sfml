@@ -9,7 +9,6 @@ MANIFEST.SKIP
 perlobject.map
 ppport.h
 README
-SFML-0.01.tar.gz
 SFML.xs
 string.map
 t/00-SFML.t

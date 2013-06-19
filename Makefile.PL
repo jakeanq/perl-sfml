@@ -26,6 +26,9 @@ my $compiler = WriteMakefile(
 		'ExtUtils::CBuilder' => 0,
 		'Alien::SFML' => 0.02,
 	},
+	CONFIGURE_REQUIRES => {
+		'Alien::SFML' => 0.02,
+	},
 	PREREQ_PM => {
 		'Alien::SFML' => 0.02,
 	},
